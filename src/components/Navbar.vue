@@ -19,12 +19,12 @@
                     <a href="#" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">API
                         Docs</a>
                     <div class="h-4 w-px bg-slate-200"></div>
-                    <a href="#"
-                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Login</a>
-                    <a href="#"
+                    <router-link to="/login"
+                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Login</router-link>
+                    <router-link to="/signup"
                         class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-all hover:shadow-md">
                         Get Started
-                    </a>
+                    </router-link>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -42,10 +42,10 @@
             <a href="#features" class="block text-base font-medium text-slate-600 hover:text-indigo-600">Features</a>
             <a href="#pricing" class="block text-base font-medium text-slate-600 hover:text-indigo-600">Pricing</a>
             <a href="#" class="block text-base font-medium text-slate-600 hover:text-indigo-600">API Docs</a>
-            <a href="#" class="block text-base font-medium text-slate-600 hover:text-indigo-600">Login</a>
-            <a href="#"
+            <router-link to="/login" class="block text-base font-medium text-slate-600 hover:text-indigo-600">Login</router-link>
+            <router-link to="/signup"
                 class="block w-full text-center px-4 py-3 text-base font-semibold rounded-xl text-white bg-indigo-600">Get
-                Started</a>
+                Started</router-link>
         </div>
     </nav>
 </template>
