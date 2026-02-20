@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-slate-900 text-slate-400 py-20">
+    <footer class="bg-slate-900 dark:bg-slate-950 text-slate-400 py-20 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
                 <div class="col-span-2 lg:col-span-2">
@@ -7,16 +7,16 @@
                         <div class="bg-indigo-600 p-1.5 rounded-lg">
                             <ChatBubbleBottomCenterTextIcon class="h-6 w-6 text-white" />
                         </div>
-                        <span class="text-xl font-bold text-white">FELSMS</span>
+                        <span class="text-xl font-bold text-white">Feltech SMS</span>
                     </div>
-                    <p class="max-w-sm text-slate-500 leading-relaxed mb-8">
+                    <p class="max-w-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
                         The reliable SMS gateway for Zambian developers. Fast, secure, and affordable messaging at your
                         fingertips.
                     </p>
                     <div class="flex gap-4">
                         <!-- Social placeholders -->
                         <a href="#"
-                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-slate-700 transition-colors">
+                            class="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-800 transition-colors">
                             <span class="sr-only">Twitter</span>
                             <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                 <path
@@ -24,7 +24,7 @@
                             </svg>
                         </a>
                         <a href="#"
-                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-slate-700 transition-colors">
+                            class="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-800 transition-colors">
                             <span class="sr-only">GitHub</span>
                             <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                 <path
@@ -63,8 +63,9 @@
                 </div>
             </div>
 
-            <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-sm">© 2026 FELSMS. All rights reserved.</p>
+            <div
+                class="pt-8 border-t border-slate-800 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm">© 2026 Feltech SMS. All rights reserved.</p>
                 <p class="text-sm">Made with ❤️ for developers in Zambia.</p>
             </div>
         </div>

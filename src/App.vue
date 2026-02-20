@@ -1,6 +1,29 @@
 <script setup>
-
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
+
+onMounted(() => {
+  // Check system preference
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const storedTheme = localStorage.getItem('theme')
+  
+  if (storedTheme === 'dark' || (!storedTheme && isDark)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+
+  // Listen for system changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      if (e.matches) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    }
+  })
+})
 </script>
 
 

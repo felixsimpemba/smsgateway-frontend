@@ -1,5 +1,6 @@
 <template>
-    <div class="min-h-screen bg-white selection:bg-indigo-100 selection:text-indigo-700">
+    <div
+        class="min-h-screen bg-white dark:bg-slate-950 selection:bg-indigo-100 selection:text-indigo-700 transition-colors duration-300">
         <Navbar />
         <main>
             <Hero />
@@ -8,7 +9,6 @@
             <UseCases />
             <HowItWorks />
             <Pricing />
-            <Testimonials />
             <FAQ />
         </main>
         <Footer />

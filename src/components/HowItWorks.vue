@@ -1,9 +1,10 @@
 <template>
-    <section class="py-24 bg-slate-50">
+    <section class="py-24 bg-slate-50 dark:bg-slate-900/50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:flex items-center gap-16">
                 <div class="lg:w-1/2 mb-12 lg:mb-0">
-                    <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl mb-12">Start sending in minutes</h2>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl mb-12">Start sending
+                        in minutes</h2>
                     <div class="space-y-12">
                         <div v-for="(step, index) in steps" :key="index" class="flex gap-6">
                             <div
@@ -11,15 +12,16 @@
                                 {{ index + 1 }}
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-2">{{ step.title }}</h3>
-                                <p class="text-slate-600">{{ step.description }}</p>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ step.title }}</h3>
+                                <p class="text-slate-600 dark:text-slate-400">{{ step.description }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="lg:w-1/2">
-                    <div class="bg-slate-900 rounded-3xl shadow-2xl p-6 md:p-8 overflow-hidden relative group">
+                    <div
+                        class="bg-slate-900 dark:bg-slate-950 rounded-3xl shadow-2xl p-6 md:p-8 overflow-hidden relative group border border-slate-800">
                         <div class="flex items-center gap-4 mb-6 border-b border-slate-800 pb-4">
                             <div class="flex gap-2">
                                 <div class="w-3 h-3 rounded-full bg-red-400"></div>
@@ -27,8 +29,7 @@
                                 <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
                             </div>
                             <div class="flex gap-4 ml-6">
-                                <button v-for="lang in Object.keys(codeExamples)" :key="lang"
-                                    @click="activeLang = lang"
+                                <button v-for="lang in Object.keys(codeExamples)" :key="lang" @click="activeLang = lang"
                                     :class="['text-xs font-mono uppercase tracking-widest transition-colors', activeLang === lang ? 'text-indigo-400 border-b border-indigo-400' : 'text-slate-500 hover:text-slate-300']">
                                     {{ lang }}
                                 </button>
@@ -70,7 +71,7 @@ const steps = [
 
 const codeExamples = {
     javascript: `// Send SMS using JavaScript
-const response = await fetch("https://api.felsms.com/v1/sms/send", {
+const response = await fetch("https://api.Feltech SMS.com/v1/sms/send", {
   method: "POST",
   headers: { 
     "Authorization": "Bearer YOUR_API_KEY",
@@ -88,7 +89,7 @@ console.log(data.status); // "delivered"`,
     python: `# Send SMS using Python
 import requests
 
-url = "https://api.felsms.com/v1/sms/send"
+url = "https://api.Feltech SMS.com/v1/sms/send"
 headers = {
     "Authorization": "Bearer YOUR_API_KEY",
     "Content-Type": "application/json"
@@ -103,7 +104,7 @@ print(response.json().get("status")) # "delivered"`,
 
     php: `<?php
 // Send SMS using PHP
-$ch = curl_init("https://api.felsms.com/v1/sms/send");
+$ch = curl_init("https://api.Feltech SMS.com/v1/sms/send");
 $payload = json_encode([
     "to" => "+260977000000",
     "message" => "Hello World"
@@ -122,4 +123,3 @@ echo json_decode($result)->status; // "delivered"
 ?>`
 }
 </script>
-

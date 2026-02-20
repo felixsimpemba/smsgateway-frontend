@@ -1,10 +1,10 @@
 <template>
-    <section id="features" class="py-24 bg-white">
+    <section id="features" class="py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Everything you need to send SMS at scale
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">Everything you need to send SMS at scale
                 </h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
                     Powerful features designed for modern applications. Reliable, fast, and incredibly easy to
                     integrate.
                 </p>
@@ -12,14 +12,14 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div v-for="feature in features" :key="feature.name"
-                    class="p-8 rounded-3xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-50 transition-all group">
+                    class="p-8 rounded-3xl border border-slate-100 bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-900 hover:border-indigo-100 dark:hover:border-indigo-900/50 hover:shadow-xl hover:shadow-indigo-50 dark:hover:shadow-indigo-900/10 transition-all group">
                     <div
-                        class="w-12 h-12 rounded-2xl bg-indigo-100 flex items-center justify-center mb-6 group-hover:bg-indigo-600 transition-colors">
+                        class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mb-6 group-hover:bg-indigo-600 transition-colors">
                         <component :is="feature.icon"
-                            class="h-6 w-6 text-indigo-600 group-hover:text-white transition-colors" />
+                            class="h-6 w-6 text-indigo-600 dark:text-indigo-400 group-hover:text-white transition-colors" />
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">{{ feature.name }}</h3>
-                    <p class="text-slate-600 leading-relaxed">{{ feature.description }}</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ feature.name }}</h3>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">{{ feature.description }}</p>
                 </div>
             </div>
         </div>
