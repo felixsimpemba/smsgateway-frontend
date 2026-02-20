@@ -21,10 +21,10 @@
                         </span>
                     </h1>
                     <p class="mt-6 text-lg text-slate-400 leading-relaxed max-w-lg">
-                        Connect with customers globally through our ultra-low latency SMS gateway. 
+                        Connect with customers globally through our ultra-low latency SMS gateway.
                         Engineered for developers who demand 99.99% uptime and instant delivery reports.
                     </p>
-                    
+
                     <div class="mt-10 flex flex-col sm:flex-row gap-4">
                         <router-link to="/signup"
                             class="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-500 shadow-lg shadow-indigo-900/20 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
@@ -55,12 +55,18 @@
                     <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl"></div>
                     <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl"></div>
 
-                    <div class="relative bg-slate-950 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden group">
+                    <div
+                        class="relative bg-slate-950 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden group">
                         <!-- Window Controls -->
                         <div class="flex items-center gap-2 px-4 py-3 bg-slate-900 border-b border-slate-800">
-                            <div class="w-3 h-3 rounded-full bg-red-500/20 group-hover:bg-red-500 transition-colors"></div>
-                            <div class="w-3 h-3 rounded-full bg-amber-500/20 group-hover:bg-amber-500 transition-colors"></div>
-                            <div class="w-3 h-3 rounded-full bg-emerald-500/20 group-hover:bg-emerald-500 transition-colors"></div>
+                            <div class="w-3 h-3 rounded-full bg-red-500/20 group-hover:bg-red-500 transition-colors">
+                            </div>
+                            <div
+                                class="w-3 h-3 rounded-full bg-amber-500/20 group-hover:bg-amber-500 transition-colors">
+                            </div>
+                            <div
+                                class="w-3 h-3 rounded-full bg-emerald-500/20 group-hover:bg-emerald-500 transition-colors">
+                            </div>
                             <div class="ml-auto text-xs font-mono text-slate-500">curl-request.sh</div>
                         </div>
 
@@ -68,15 +74,18 @@
                         <div class="p-6 font-mono text-sm leading-relaxed overflow-x-auto text-slate-300">
                             <div class="flex">
                                 <span class="text-slate-600 select-none w-6 text-right mr-4">1</span>
-                                <span><span class="text-indigo-400">curl</span> -X POST https://api.felsms.com/v1/messages \</span>
+                                <span><span class="text-indigo-400">curl</span> -X POST https://api.Feltech
+                                    SMS.com/v1/messages \</span>
                             </div>
                             <div class="flex">
                                 <span class="text-slate-600 select-none w-6 text-right mr-4">2</span>
-                                <span>&nbsp;&nbsp;-H <span class="text-emerald-400">"Authorization: Bearer sk_live_..."</span> \</span>
+                                <span>&nbsp;&nbsp;-H <span class="text-emerald-400">"Authorization: Bearer
+                                        sk_live_..."</span> \</span>
                             </div>
                             <div class="flex">
                                 <span class="text-slate-600 select-none w-6 text-right mr-4">3</span>
-                                <span>&nbsp;&nbsp;-H <span class="text-emerald-400">"Content-Type: application/json"</span> \</span>
+                                <span>&nbsp;&nbsp;-H <span class="text-emerald-400">"Content-Type:
+                                        application/json"</span> \</span>
                             </div>
                             <div class="flex">
                                 <span class="text-slate-600 select-none w-6 text-right mr-4">4</span>
@@ -84,11 +93,13 @@
                             </div>
                             <div class="flex">
                                 <span class="text-slate-600 select-none w-6 text-right mr-4">5</span>
-                                <span><span class="text-amber-300">&nbsp;&nbsp;&nbsp;&nbsp;"to": "+260970000000",</span></span>
+                                <span><span class="text-amber-300">&nbsp;&nbsp;&nbsp;&nbsp;"to":
+                                        "+260970000000",</span></span>
                             </div>
                             <div class="flex">
                                 <span class="text-slate-600 select-none w-6 text-right mr-4">6</span>
-                                <span><span class="text-amber-300">&nbsp;&nbsp;&nbsp;&nbsp;"body": "Your verification code is: 8439"</span></span>
+                                <span><span class="text-amber-300">&nbsp;&nbsp;&nbsp;&nbsp;"body": "Your verification
+                                        code is: 8439"</span></span>
                             </div>
                             <div class="flex">
                                 <span class="text-slate-600 select-none w-6 text-right mr-4">7</span>
@@ -99,9 +110,9 @@
                             <div class="mt-6 p-4 bg-slate-900 rounded border border-slate-800 animate-pulse">
                                 <div class="text-xs text-slate-500 mb-2 uppercase tracking-wider">Response 200 OK</div>
                                 <div class="text-emerald-400">
-                                    {<br/>
-                                    &nbsp;&nbsp;"id": "msg_8923023",<br/>
-                                    &nbsp;&nbsp;"status": "queued"<br/>
+                                    {<br />
+                                    &nbsp;&nbsp;"id": "msg_8923023",<br />
+                                    &nbsp;&nbsp;"status": "queued"<br />
                                     }
                                 </div>
                             </div>
@@ -110,9 +121,11 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Grid Background -->
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div
+            class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
+        </div>
     </section>
 </template>
 

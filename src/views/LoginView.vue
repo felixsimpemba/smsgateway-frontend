@@ -5,7 +5,9 @@
                 <div class="bg-indigo-600 p-1.5 rounded-lg shadow-lg shadow-indigo-200">
                     <ChatBubbleBottomCenterTextIcon class="h-6 w-6 text-white" />
                 </div>
-                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">FELSMS</span>
+                <span
+                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">Feltech
+                    SMS</span>
             </router-link>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">
                 Welcome back
@@ -19,7 +21,8 @@
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-3xl sm:px-10 border border-slate-100">
+            <div
+                class="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-3xl sm:px-10 border border-slate-100">
                 <form class="space-y-6" @submit.prevent="handleLogin">
                     <div>
                         <label for="email" class="block text-sm font-semibold text-slate-700">
@@ -37,7 +40,8 @@
                             Password
                         </label>
                         <div class="mt-1">
-                            <input id="password" name="password" type="password" autocomplete="current-password" required
+                            <input id="password" name="password" type="password" autocomplete="current-password"
+                                required
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                                 placeholder="••••••••" />
                         </div>
@@ -83,7 +87,8 @@
                         <button
                             class="w-full inline-flex justify-center py-3 px-4 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all">
                             <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.908 3.152-1.928 4.176-1.224 1.224-3.136 2.552-6.712 2.552-5.44 0-9.76-4.4-9.76-9.84s4.32-9.84 9.76-9.84c2.952 0 5.176 1.152 6.76 2.68l2.304-2.304C18.592 1.392 15.832 0 12.48 0 5.592 0 0 5.592 0 12.48S5.592 24.96 12.48 24.96c3.752 0 6.592-1.24 8.76-3.52 2.24-2.24 2.944-5.408 2.944-8.032 0-.768-.064-1.504-.184-2.192H12.48z" />
+                                <path
+                                    d="M12.48 10.92v3.28h7.84c-.24 1.84-.908 3.152-1.928 4.176-1.224 1.224-3.136 2.552-6.712 2.552-5.44 0-9.76-4.4-9.76-9.84s4.32-9.84 9.76-9.84c2.952 0 5.176 1.152 6.76 2.68l2.304-2.304C18.592 1.392 15.832 0 12.48 0 5.592 0 0 5.592 0 12.48S5.592 24.96 12.48 24.96c3.752 0 6.592-1.24 8.76-3.52 2.24-2.24 2.944-5.408 2.944-8.032 0-.768-.064-1.504-.184-2.192H12.48z" />
                             </svg>
                             Google
                         </button>

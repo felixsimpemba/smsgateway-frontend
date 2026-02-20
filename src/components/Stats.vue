@@ -1,10 +1,10 @@
 <template>
-    <section class="py-20 bg-indigo-900 text-white">
+    <section class="py-20 bg-indigo-900 dark:bg-slate-900 text-white transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div v-for="stat in stats" :key="stat.label">
                     <div class="text-4xl md:text-5xl font-extrabold mb-2">{{ stat.value }}</div>
-                    <div class="text-indigo-200 text-sm md:text-base font-medium">{{ stat.label }}</div>
+                    <div class="text-indigo-200 dark:text-slate-400 text-sm md:text-base font-medium">{{ stat.label }}</div>
                 </div>
             </div>
         </div>
