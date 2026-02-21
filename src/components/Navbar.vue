@@ -24,12 +24,7 @@
                     <div class="h-4 w-px bg-slate-200 dark:bg-slate-700"></div>
 
                     <!-- Theme Toggle -->
-                    <button @click="toggleTheme"
-                        class="p-2 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors"
-                        aria-label="Toggle theme">
-                        <SunIcon v-if="isDark" class="h-5 w-5" />
-                        <MoonIcon v-else class="h-5 w-5" />
-                    </button>
+                    <ThemeToggle />
 
                     <router-link to="/login"
                         class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Login</router-link>
@@ -41,11 +36,7 @@
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center gap-4">
-                    <button @click="toggleTheme" class="p-2 text-slate-500 dark:text-slate-400"
-                        aria-label="Toggle theme">
-                        <SunIcon v-if="isDark" class="h-5 w-5" />
-                        <MoonIcon v-else class="h-5 w-5" />
-                    </button>
+                    <ThemeToggle />
                     <button @click="isOpen = !isOpen" class="text-slate-600 dark:text-slate-300 p-2">
                         <Bars3Icon v-if="!isOpen" class="h-6 w-6" />
                         <XMarkIcon v-else class="h-6 w-6" />
@@ -73,24 +64,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { ChatBubbleBottomCenterTextIcon, Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
+import { ref } from 'vue'
+import { ChatBubbleBottomCenterTextIcon, Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import ThemeToggle from './ThemeToggle.vue'
 
 const isOpen = ref(false)
-const isDark = ref(false)
-
-onMounted(() => {
-    isDark.value = document.documentElement.classList.contains('dark')
-})
-
-const toggleTheme = () => {
-    isDark.value = !isDark.value
-    if (isDark.value) {
-        document.documentElement.classList.add('dark')
-        localStorage.setItem('theme', 'dark')
-    } else {
-        document.documentElement.classList.remove('dark')
-        localStorage.setItem('theme', 'light')
-    }
-}
 </script>
