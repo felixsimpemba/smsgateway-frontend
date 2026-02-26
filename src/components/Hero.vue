@@ -5,18 +5,18 @@
                 <!-- Left Content -->
                 <div class="text-left mb-12 lg:mb-0">
                     <div
-                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-900/50 text-indigo-300 text-xs font-semibold mb-6 border border-indigo-700/50 backdrop-blur-sm">
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-semibold mb-6 border border-brand-blue/20 backdrop-blur-sm">
                         <span class="relative flex h-2 w-2">
                             <span
-                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-50"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-blue"></span>
                         </span>
                         v2.0 is live: Global SMS Delivery
                     </div>
                     <h1
                         class="text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight md:leading-tight">
                         The API for <br />
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-green">
                             Reliable Messaging
                         </span>
                     </h1>
@@ -27,7 +27,7 @@
 
                     <div class="mt-10 flex flex-col sm:flex-row gap-4">
                         <router-link to="/signup"
-                            class="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-500 shadow-lg shadow-indigo-900/20 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
+                            class="px-8 py-4 bg-brand-blue text-white font-bold rounded-xl hover:bg-brand-blue/90 shadow-lg shadow-brand-blue/20 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
                             Get API Key
                             <ArrowRightIcon class="h-5 w-5" />
                         </router-link>
@@ -52,8 +52,8 @@
                 <!-- Right Visual (Code Window) -->
                 <div class="relative mx-auto w-full max-w-lg lg:max-w-none">
                     <!-- Decorate Blobs -->
-                    <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl"></div>
-                    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl"></div>
+                    <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-blue/20 rounded-full blur-3xl"></div>
+                    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-green/20 rounded-full blur-3xl"></div>
 
                     <div
                         class="relative bg-slate-950 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden group">

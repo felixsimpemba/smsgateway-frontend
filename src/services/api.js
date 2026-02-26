@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../store';
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
@@ -8,7 +9,7 @@ const api = axios.create({
     },
 });
 
-// Interceptor to add the auth token to every request
+// Attach Bearer token on every request
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
@@ -17,19 +18,22 @@ api.interceptors.request.use(
         }
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
-// Interceptor to handle common errors (e.g., unauthorized)
+// Global 401 handler — clear session and redirect to login
 api.interceptors.response.use(
     (response) => response,
-    (error) => {
+    async (error) => {
         if (error.response && error.response.status === 401) {
-            // Handle unauthorized error (e.g., clear token and redirect to login)
-            localStorage.removeItem('token');
-            // Store reference or dispatch logout could go here
+            // Only act if we actually had a token (avoids loops on the login page itself)
+            if (localStorage.getItem('token')) {
+                await store.dispatch('auth/logout');
+                // Redirect while preserving intended destination
+                const currentPath = window.location.pathname;
+                const redirect = currentPath.startsWith('/dashboard') ? `?redirect=${encodeURIComponent(currentPath)}` : '';
+                window.location.href = `/login${redirect}`;
+            }
         }
         return Promise.reject(error);
     }

@@ -13,7 +13,7 @@
                 <div v-for="(testimonial, index) in testimonials" :key="index"
                     class="p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm relative transition-all hover:shadow-md">
                     <div
-                        class="absolute -top-4 -left-2 text-indigo-100 dark:text-indigo-900/30 italic font-serif text-8xl leading-none select-none">
+                        class="absolute -top-4 -left-2 text-brand-blue/10 dark:text-brand-blue/20 italic font-serif text-8xl leading-none select-none">
                         “</div>
                     <div class="relative">
                         <p class="text-slate-700 dark:text-slate-300 leading-relaxed mb-8 italic">
@@ -21,7 +21,7 @@
                         </p>
                         <div class="flex items-center gap-4">
                             <div
-                                class="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 border-2 border-indigo-50 dark:border-indigo-900/30">
+                                class="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-700 border-2 border-brand-blue/10 dark:border-brand-blue/30">
                                 <img :src="testimonial.avatar" :alt="testimonial.author"
                                     class="w-full h-full object-cover" />
                             </div>
@@ -29,7 +29,7 @@
                                 <div class="font-bold text-slate-900 dark:text-white leading-none mb-1">{{
                                     testimonial.author }}</div>
                                 <div class="text-sm text-slate-500 dark:text-slate-400">{{ testimonial.role }} at <span
-                                        class="text-indigo-600 dark:text-indigo-400">{{ testimonial.company }}</span>
+                                        class="text-brand-blue dark:text-brand-blue">{{ testimonial.company }}</span>
                                 </div>
                             </div>
                         </div>

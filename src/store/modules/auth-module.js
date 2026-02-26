@@ -3,7 +3,8 @@ import api from '../../services/api';
 const state = {
     user: null,
     token: localStorage.getItem('token') || null,
-    isAuthenticated: !!localStorage.getItem('token')
+    isAuthenticated: !!localStorage.getItem('token'),
+    loading: false,
 };
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
             localStorage.removeItem('token');
         }
     },
+    SET_LOADING(state, val) {
+        state.loading = val;
+    },
     LOGOUT(state) {
         state.user = null;
         state.token = null;
@@ -28,12 +32,12 @@ const mutations = {
 };
 
 const actions = {
-    async login({ commit, dispatch }, credentials) {
+    async login({ commit }, credentials) {
         try {
             const response = await api.post('/login', credentials);
-            
+
             if (response.data.two_factor_required) {
-                return response.data; // Return { two_factor_required: true, user_id, method }
+                return response.data;
             }
 
             const { token, user } = response.data;
@@ -65,7 +69,7 @@ const actions = {
             throw error;
         }
     },
-    async handleCallback({ commit, dispatch }, token) {
+    async handleCallback({ commit }, token) {
         commit('SET_TOKEN', token);
         try {
             const response = await api.get('/user');
@@ -76,7 +80,7 @@ const actions = {
             throw error;
         }
     },
-    async register({ commit, dispatch }, userData) {
+    async register({ commit }, userData) {
         try {
             const response = await api.post('/register', userData);
             const { token, user } = response.data;
@@ -91,19 +95,24 @@ const actions = {
     async logout({ commit }) {
         try {
             await api.post('/logout');
-        } catch (error) {
-            console.error('Logout failed:', error);
+        } catch {
+            // Ignore — always clear local session
         } finally {
             commit('LOGOUT');
         }
     },
     async fetchUser({ commit }) {
+        commit('SET_LOADING', true);
         try {
             const response = await api.get('/user');
             commit('SET_USER', response.data);
+            return response.data;
         } catch (error) {
-            console.error('Fetch user failed:', error);
+            // Token is invalid / expired
             commit('LOGOUT');
+            throw error; // Re-throw so router guard can handle redirect
+        } finally {
+            commit('SET_LOADING', false);
         }
     },
     async updateProfile({ commit }, userData) {
@@ -168,7 +177,8 @@ const actions = {
 const getters = {
     currentUser: state => state.user,
     isAuthenticated: state => state.isAuthenticated,
-    token: state => state.token
+    token: state => state.token,
+    isLoading: state => state.loading,
 };
 
 export default {

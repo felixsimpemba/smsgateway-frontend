@@ -8,7 +8,7 @@
                     <div class="space-y-12">
                         <div v-for="(step, index) in steps" :key="index" class="flex gap-6">
                             <div
-                                class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+                                class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-blue text-white flex items-center justify-center font-bold">
                                 {{ index + 1 }}
                             </div>
                             <div>
@@ -30,17 +30,17 @@
                             </div>
                             <div class="flex gap-4 ml-6">
                                 <button v-for="lang in Object.keys(codeExamples)" :key="lang" @click="activeLang = lang"
-                                    :class="['text-xs font-mono uppercase tracking-widest transition-colors', activeLang === lang ? 'text-indigo-400 border-b border-indigo-400' : 'text-slate-500 hover:text-slate-300']">
+                                    :class="['text-xs font-mono uppercase tracking-widest transition-colors', activeLang === lang ? 'text-brand-blue border-b border-brand-blue' : 'text-slate-500 hover:text-slate-300']">
                                     {{ lang }}
                                 </button>
                             </div>
                         </div>
                         <pre
-                            class="text-indigo-300 font-mono text-sm md:text-base leading-relaxed overflow-x-auto h-[300px]"><code>{{ codeExamples[activeLang] }}</code></pre>
+                            class="text-brand-green/80 font-mono text-sm md:text-base leading-relaxed overflow-x-auto h-[300px]"><code>{{ codeExamples[activeLang] }}</code></pre>
 
                         <!-- Glow Effect -->
                         <div
-                            class="absolute inset-0 bg-indigo-500 opacity-0 group-hover:opacity-10 blur-3xl transition-opacity pointer-events-none">
+                            class="absolute inset-0 bg-brand-blue/50 opacity-0 group-hover:opacity-10 blur-3xl transition-opacity pointer-events-none">
                         </div>
                     </div>
                 </div>

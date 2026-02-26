@@ -4,11 +4,9 @@
         <Navbar />
         <main>
             <Hero />
-            <Stats />
-            <Features />
+
             <UseCases />
             <HowItWorks />
-            <Pricing />
             <FAQ />
         </main>
         <Footer />
@@ -19,10 +17,8 @@
 import Navbar from '../components/Navbar.vue'
 import Hero from '../components/Hero.vue'
 import Stats from '../components/Stats.vue'
-import Features from '../components/Features.vue'
 import UseCases from '../components/UseCases.vue'
 import HowItWorks from '../components/HowItWorks.vue'
-import Pricing from '../components/Pricing.vue'
 import Testimonials from '../components/Testimonials.vue'
 import FAQ from '../components/FAQ.vue'
 import Footer from '../components/Footer.vue'

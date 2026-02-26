@@ -2,14 +2,14 @@
     <div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <router-link to="/" class="flex justify-center items-center mb-6">
-                <img src="@/assets/logo.png" alt="Feltech SMS Logo" class="h-16 w-auto" />
+                <img src="/logo.png" alt="Feltech SMS Logo" class="h-16 w-auto" />
             </router-link>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">
                 Welcome back
             </h2>
             <p class="mt-2 text-center text-sm text-slate-600">
                 Or
-                <router-link to="/signup" class="font-medium text-indigo-600 hover:text-indigo-500">
+                <router-link to="/signup" class="font-medium text-brand-blue hover:text-brand-blue/80">
                     create a new account for free
                 </router-link>
             </p>
@@ -31,7 +31,7 @@
                         <div class="mt-1">
                             <input id="email" v-model="form.email" name="email" type="email" autocomplete="email"
                                 required
-                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 placeholder="name@company.com" :disabled="loading" />
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="mt-1">
                             <input id="password" v-model="form.password" name="password" type="password"
                                 autocomplete="current-password" required
-                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 placeholder="••••••••" :disabled="loading" />
                         </div>
                     </div>
@@ -51,14 +51,14 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <input id="remember-me" name="remember-me" type="checkbox"
-                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded" />
+                                class="h-4 w-4 text-brand-blue focus:ring-brand-blue border-slate-300 rounded" />
                             <label for="remember-me" class="ml-2 block text-sm text-slate-600">
                                 Remember me
                             </label>
                         </div>
 
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                            <a href="#" class="font-medium text-brand-blue hover:text-brand-blue/80">
                                 Forgot your password?
                             </a>
                         </div>
@@ -66,7 +66,7 @@
 
                     <div>
                         <button type="submit"
-                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-brand-blue hover:bg-brand-blue/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-all hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                             :disabled="loading">
                             <template v-if="loading">
                                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
@@ -116,11 +116,11 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
+import { useRouter, useRoute } from 'vue-router'
 
 const store = useStore()
 const router = useRouter()
+const route = useRoute()
 
 const loading = ref(false)
 const error = ref('')
@@ -147,7 +147,7 @@ const handleLogin = async () => {
             email: form.email,
             password: form.password
         })
-        
+
         if (data?.two_factor_required) {
             sessionStorage.setItem('2fa_user_id', data.user_id)
             sessionStorage.setItem('2fa_method', data.method)
@@ -155,7 +155,9 @@ const handleLogin = async () => {
             return
         }
 
-        router.push('/dashboard')
+        // Redirect to original destination or fallback to dashboard
+        const redirect = route.query.redirect || '/dashboard'
+        router.push(decodeURIComponent(redirect))
     } catch (err) {
         // Handle specific error messages if returned by API
         error.value = err.response?.data?.message || 'Invalid email or password. Please try again.'

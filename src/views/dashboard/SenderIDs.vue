@@ -63,7 +63,9 @@
               </span>
             </td>
             <td class="px-6 py-5 text-sm font-bold text-gray-500 dark:text-slate-500">
-                {{ new Date(id.created_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) }}
+              {{ new Date(id.created_at).toLocaleDateString('en-US', {
+                month: 'short', day: '2-digit', year: 'numeric'
+              }) }}
             </td>
             <td class="px-6 py-5 text-right">
               <button
@@ -136,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import {
   PlusIcon,

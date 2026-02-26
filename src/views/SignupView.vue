@@ -2,14 +2,14 @@
     <div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <router-link to="/" class="flex justify-center items-center mb-6">
-                <img src="@/assets/logo.png" alt="Feltech SMS Logo" class="h-16 w-auto" />
+                <img src="/logo.png" alt="Feltech SMS Logo" class="h-16 w-auto" />
             </router-link>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">
                 Start sending in minutes
             </h2>
             <p class="mt-2 text-center text-sm text-slate-600">
                 Already have an account?
-                <router-link to="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+                <router-link to="/login" class="font-medium text-brand-blue hover:text-brand-blue/80">
                     Sign in here
                 </router-link>
             </p>
@@ -30,7 +30,7 @@
                         </label>
                         <div class="mt-1">
                             <input id="name" v-model="form.name" name="name" type="text" autocomplete="name" required
-                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 placeholder="John Doe" :disabled="loading" />
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="mt-1">
                             <input id="company" v-model="form.company" name="company" type="text"
                                 autocomplete="organization"
-                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 placeholder="The Tech Group" :disabled="loading" />
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="mt-1">
                             <input id="email" v-model="form.email" name="email" type="email" autocomplete="email"
                                 required
-                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 placeholder="name@company.com" :disabled="loading" />
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         <div class="mt-1">
                             <input id="password" v-model="form.password" name="password" type="password"
                                 autocomplete="new-password" required
-                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 placeholder="••••••••" :disabled="loading" />
                         </div>
                         <p class="mt-2 text-xs text-slate-500">Must be at least 8 characters long.</p>
@@ -79,7 +79,7 @@
                         <div class="mt-1">
                             <input id="password_confirmation" v-model="form.password_confirmation"
                                 name="password_confirmation" type="password" autocomplete="new-password" required
-                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 :class="{ 'border-red-300 focus:ring-red-500': passwordMismatch }"
                                 placeholder="••••••••" :disabled="loading" />
                         </div>
@@ -90,18 +90,19 @@
 
                     <div class="flex items-center">
                         <input id="terms" v-model="form.terms" name="terms" type="checkbox" required
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded" />
+                            class="h-4 w-4 text-brand-blue focus:ring-brand-blue border-slate-300 rounded" />
                         <label for="terms" class="ml-2 block text-sm text-slate-600">
                             I agree to the
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Terms of Service</a>
+                            <a href="#" class="font-medium text-brand-blue hover:text-brand-blue/80">Terms of
+                                Service</a>
                             and
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Privacy Policy</a>.
+                            <a href="#" class="font-medium text-brand-blue hover:text-brand-blue/80">Privacy Policy</a>.
                         </label>
                     </div>
 
                     <div>
                         <button type="submit"
-                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-brand-blue hover:bg-brand-blue/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue transition-all hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                             :disabled="loading || passwordMismatch">
                             <template v-if="loading">
                                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">

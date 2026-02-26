@@ -6,6 +6,8 @@ import sms from './modules/sms-module';
 import contacts from './modules/contacts-module';
 import stats from './modules/stats-module';
 import senderids from './modules/senderids-module';
+import pricing from './modules/pricing-module';
+import billing from './modules/billing-module';
 
 export default createStore({
     modules: {
@@ -15,6 +17,9 @@ export default createStore({
         sms,
         contacts,
         stats,
-        senderids
+        senderids,
+        pricing,
+        billing,
     }
 });
+

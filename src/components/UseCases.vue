@@ -13,8 +13,8 @@
                 <div v-for="useCase in useCases" :key="useCase.title"
                     class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
                     <div
-                        class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center mb-6">
-                        <component :is="useCase.icon" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                        class="w-12 h-12 rounded-2xl bg-brand-blue/10 dark:bg-brand-blue/20 flex items-center justify-center mb-6">
+                        <component :is="useCase.icon" class="h-6 w-6 text-brand-blue dark:text-brand-blue" />
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ useCase.title }}</h3>
                     <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{{ useCase.description }}</p>

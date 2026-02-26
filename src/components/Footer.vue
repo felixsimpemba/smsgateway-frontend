@@ -4,9 +4,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
                 <div class="col-span-2 lg:col-span-2">
                     <div class="flex items-center gap-2 mb-6">
-                        <div class="bg-indigo-600 p-1.5 rounded-lg">
-                            <ChatBubbleBottomCenterTextIcon class="h-6 w-6 text-white" />
-                        </div>
+                        <img class="h-8 w-auto" src="/logo.png" alt="Feltech SMS Logo" />
                         <span class="text-xl font-bold text-white">Feltech SMS</span>
                     </div>
                     <p class="max-w-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
@@ -37,28 +35,34 @@
                 <div>
                     <h4 class="text-white font-bold mb-6">Product</h4>
                     <ul class="space-y-4 text-sm">
-                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">API Reference</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Status</a></li>
+                        <li><router-link to="/features"
+                                class="hover:text-white transition-colors">Features</router-link></li>
+                        <li><router-link to="/pricing" class="hover:text-white transition-colors">Pricing</router-link>
+                        </li>
+                        <li><router-link to="/docs" class="hover:text-white transition-colors">API
+                                Reference</router-link></li>
+
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6">Company</h4>
                     <ul class="space-y-4 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Customers</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><router-link to="/about" class="hover:text-white transition-colors">About</router-link></li>
+                        <li><router-link to="/contact" class="hover:text-white transition-colors">Contact</router-link>
+                        </li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6">Legal</h4>
                     <ul class="space-y-4 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+                        <li><router-link to="/privacy" class="hover:text-white transition-colors">Privacy
+                                Policy</router-link></li>
+                        <li><router-link to="/terms" class="hover:text-white transition-colors">Terms of
+                                Service</router-link></li>
+                        <li><router-link to="/cookie-policy" class="hover:text-white transition-colors">Cookie
+                                Policy</router-link></li>
                     </ul>
                 </div>
             </div>
@@ -66,12 +70,11 @@
             <div
                 class="pt-8 border-t border-slate-800 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-sm">© 2026 Feltech SMS. All rights reserved.</p>
-                <p class="text-sm">Made with ❤️ for developers in Zambia.</p>
+                <p class="text-sm">Made with by Feltech </p>
             </div>
         </div>
     </footer>
 </template>
 
 <script setup>
-import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 </script>
