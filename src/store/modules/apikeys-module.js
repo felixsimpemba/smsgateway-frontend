@@ -1,8 +1,7 @@
+import api from '../../services/api';
+
 const state = {
-    apiKeys: [
-        { id: 1, name: 'Production App', value: 'YOUR_LIVE_API_KEY', created: 'Jan 12, 2026', active: true, show: false },
-        { id: 2, name: 'Testing/Development', value: 'YOUR_TEST_API_KEY', created: 'Feb 05, 2026', active: true, show: false },
-    ]
+    apiKeys: []
 };
 
 const mutations = {
@@ -25,22 +24,28 @@ const mutations = {
 
 const actions = {
     async fetchKeys({ commit }) {
-        // Simulate API call
-        console.log('Fetching API keys...');
+        try {
+            const response = await api.get('/api-keys');
+            commit('SET_KEYS', response.data);
+        } catch (error) {
+            console.error('Failed to fetch API keys:', error);
+        }
     },
     async generateKey({ commit }, name) {
-        const newKey = {
-            id: Date.now(),
-            name: name || 'New API Key',
-            value: 'ftms_live_' + Math.random().toString(36).substring(7),
-            created: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
-            active: true,
-            show: false
-        };
-        commit('ADD_KEY', newKey);
+        try {
+            const response = await api.post('/api-keys', { name });
+            commit('ADD_KEY', { ...response.data, show: false });
+        } catch (error) {
+            console.error('Failed to generate API key:', error);
+        }
     },
     async deleteKey({ commit }, id) {
-        commit('REMOVE_KEY', id);
+        try {
+            await api.delete(`/api-keys/${id}`);
+            commit('REMOVE_KEY', id);
+        } catch (error) {
+            console.error('Failed to delete API key:', error);
+        }
     }
 };
 

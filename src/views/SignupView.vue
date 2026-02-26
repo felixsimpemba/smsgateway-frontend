@@ -1,13 +1,8 @@
 <template>
     <div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <router-link to="/" class="flex justify-center items-center gap-2 mb-6">
-                <div class="bg-indigo-600 p-1.5 rounded-lg shadow-lg shadow-indigo-200">
-                    <ChatBubbleBottomCenterTextIcon class="h-6 w-6 text-white" />
-                </div>
-                <span
-                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">Feltech
-                    SMS</span>
+            <router-link to="/" class="flex justify-center items-center mb-6">
+                <img src="@/assets/logo.png" alt="Feltech SMS Logo" class="h-16 w-auto" />
             </router-link>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">
                 Start sending in minutes
@@ -24,14 +19,19 @@
             <div
                 class="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-3xl sm:px-10 border border-slate-100">
                 <form class="space-y-6" @submit.prevent="handleSignup">
+                    <div v-if="error"
+                        class="bg-red-50 text-red-600 p-3 rounded-xl text-sm border border-red-100 mb-4 transition-all animate-pulse">
+                        {{ error }}
+                    </div>
+
                     <div>
                         <label for="name" class="block text-sm font-semibold text-slate-700">
                             Full Name
                         </label>
                         <div class="mt-1">
-                            <input id="name" name="name" type="text" autocomplete="name" required
+                            <input id="name" v-model="form.name" name="name" type="text" autocomplete="name" required
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                placeholder="John Doe" />
+                                placeholder="John Doe" :disabled="loading" />
                         </div>
                     </div>
 
@@ -40,9 +40,10 @@
                             Company (optional)
                         </label>
                         <div class="mt-1">
-                            <input id="company" name="company" type="text" autocomplete="organization"
+                            <input id="company" v-model="form.company" name="company" type="text"
+                                autocomplete="organization"
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                placeholder="The Tech Group" />
+                                placeholder="The Tech Group" :disabled="loading" />
                         </div>
                     </div>
 
@@ -51,9 +52,10 @@
                             Email address
                         </label>
                         <div class="mt-1">
-                            <input id="email" name="email" type="email" autocomplete="email" required
+                            <input id="email" v-model="form.email" name="email" type="email" autocomplete="email"
+                                required
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                placeholder="name@company.com" />
+                                placeholder="name@company.com" :disabled="loading" />
                         </div>
                     </div>
 
@@ -62,15 +64,32 @@
                             Password
                         </label>
                         <div class="mt-1">
-                            <input id="password" name="password" type="password" autocomplete="new-password" required
+                            <input id="password" v-model="form.password" name="password" type="password"
+                                autocomplete="new-password" required
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                placeholder="••••••••" />
+                                placeholder="••••••••" :disabled="loading" />
                         </div>
                         <p class="mt-2 text-xs text-slate-500">Must be at least 8 characters long.</p>
                     </div>
 
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-semibold text-slate-700">
+                            Confirm Password
+                        </label>
+                        <div class="mt-1">
+                            <input id="password_confirmation" v-model="form.password_confirmation"
+                                name="password_confirmation" type="password" autocomplete="new-password" required
+                                class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                :class="{ 'border-red-300 focus:ring-red-500': passwordMismatch }"
+                                placeholder="••••••••" :disabled="loading" />
+                        </div>
+                        <p v-if="passwordMismatch && form.password_confirmation" class="mt-2 text-xs text-red-600">
+                            Passwords don't match
+                        </p>
+                    </div>
+
                     <div class="flex items-center">
-                        <input id="terms" name="terms" type="checkbox" required
+                        <input id="terms" v-model="form.terms" name="terms" type="checkbox" required
                             class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded" />
                         <label for="terms" class="ml-2 block text-sm text-slate-600">
                             I agree to the
@@ -82,8 +101,21 @@
 
                     <div>
                         <button type="submit"
-                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:-translate-y-0.5 active:scale-95">
-                            Create my free account
+                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                            :disabled="loading || passwordMismatch">
+                            <template v-if="loading">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                                Creating account...
+                            </template>
+                            <template v-else>
+                                Create my free account
+                            </template>
                         </button>
                     </div>
                 </form>
@@ -101,7 +133,7 @@
                     </div>
 
                     <div class="mt-6">
-                        <button
+                        <button @click="loginWithGoogle"
                             class="w-full inline-flex justify-center py-3 px-4 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all">
                             <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -118,9 +150,74 @@
 
 <script setup>
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
+import { ref, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
-const handleSignup = () => {
-    // Implement signup logic here
-    console.log('Signup submitted')
+const store = useStore()
+const router = useRouter()
+
+const loading = ref(false)
+const error = ref('')
+const form = reactive({
+    name: '',
+    company: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    terms: false
+})
+
+const loginWithGoogle = () => {
+    // Redirect to backend Google auth route
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
+}
+
+
+const passwordMismatch = computed(() => {
+    return form.password && form.password_confirmation && form.password !== form.password_confirmation
+})
+
+const handleSignup = async () => {
+    try {
+        // Clear any previous errors
+        error.value = ''
+
+        // Validate password match
+        if (form.password !== form.password_confirmation) {
+            error.value = 'Passwords do not match'
+            return
+        }
+
+        // Validate password length
+        if (form.password.length < 8) {
+            error.value = 'Password must be at least 8 characters long'
+            return
+        }
+
+        // Validate terms acceptance
+        if (!form.terms) {
+            error.value = 'You must agree to the Terms of Service and Privacy Policy'
+            return
+        }
+
+        loading.value = true
+
+        await store.dispatch('auth/register', {
+            name: form.name,
+            company: form.company,
+            email: form.email,
+            password: form.password,
+            password_confirmation: form.password_confirmation
+        })
+
+        // Redirect to dashboard on success
+        router.push('/dashboard')
+    } catch (err) {
+        console.error('Signup error:', err)
+        error.value = err.response?.data?.message || err.message || 'An error occurred during signup. Please try again.'
+    } finally {
+        loading.value = false
+    }
 }
 </script>

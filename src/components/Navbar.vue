@@ -3,14 +3,11 @@
         class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-2">
-                    <div class="bg-indigo-600 p-1.5 rounded-lg">
-                        <ChatBubbleBottomCenterTextIcon class="h-6 w-6 text-white" />
+                <router-link to="/" class="flex items-center gap-3 group">
+                    <div class="p-1 rounded-xl transition-transform group-hover:scale-105">
+                        <img src="@/assets/logo.png" alt="Feltech SMS Logo" class="h-10 w-auto" />
                     </div>
-                    <router-link to="/"
-                        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400">Feltech
-                        SMS</router-link>
-                </div>
+                </router-link>
 
                 <!-- Desktop Nav -->
                 <div class="hidden md:flex items-center gap-8">

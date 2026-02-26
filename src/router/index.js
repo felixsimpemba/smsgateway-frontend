@@ -18,6 +18,16 @@ const routes = [
         component: () => import('../views/SignupView.vue')
     },
     {
+        path: '/auth/callback',
+        name: 'AuthCallback',
+        component: () => import('../views/AuthCallback.vue')
+    },
+    {
+        path: '/auth/2fa',
+        name: 'TwoFactorChallenge',
+        component: () => import('../views/TwoFactorChallenge.vue')
+    },
+    {
         path: '/dashboard',
         component: () => import('../views/DashboardView.vue'),
         children: [

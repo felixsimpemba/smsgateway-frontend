@@ -84,7 +84,7 @@
                     <div class="flex items-center">
                       <div
                         class="h-9 w-9 rounded-xl bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xs font-extrabold text-gray-600 dark:text-slate-400 mr-4 border border-gray-200 dark:border-slate-700">
-                        {{ contact.initials }}
+                        {{ contact.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() }}
                       </div>
                       <div class="font-bold text-gray-900 dark:text-white tracking-tight">{{ contact.name }}</div>
                     </div>
@@ -94,7 +94,7 @@
                   <td class="px-6 py-4">
                     <span
                       class="px-2.5 py-1 text-[10px] font-extrabold bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg uppercase tracking-wider">
-                      {{ contact.group }}
+                      {{ contact.group?.name || 'Unassigned' }}
                     </span>
                   </td>
                   <td class="px-6 py-4 text-right">
@@ -110,8 +110,9 @@
 
           <div
             class="px-6 py-5 border-t border-gray-100 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-800/50 flex items-center justify-between transition-colors">
-            <span class="text-xs font-bold text-gray-400 dark:text-slate-500 uppercase tracking-tight">Showing 5 of 124
-              contacts</span>
+            <span class="text-xs font-bold text-gray-400 dark:text-slate-500 uppercase tracking-tight">
+              Showing {{ contacts.length }} contacts
+            </span>
             <button
               class="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-widest hover:underline">View
               All →</button>

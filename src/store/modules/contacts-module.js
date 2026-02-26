@@ -1,16 +1,9 @@
+import api from '../../services/api';
+
 const state = {
-    contacts: [
-        { id: 1, name: 'Alice Johnson', initials: 'AJ', phone: '+1 234 567 8901', group: 'Customers' },
-        { id: 2, name: 'Bob Smith', initials: 'BS', phone: '+1 987 654 3210', group: 'VIP Members' },
-        { id: 3, name: 'Charlie Davis', initials: 'CD', phone: '+44 7700 900077', group: 'Customers' },
-        { id: 4, name: 'Diana Prince', initials: 'DP', phone: '+1 555 010 9988', group: 'Marketing List' },
-        { id: 5, name: 'Edward Norton', initials: 'EN', phone: '+49 151 23456789', group: 'Customers' },
-    ],
+    contacts: [],
     groups: [
-        { name: 'All Contacts', count: 124, active: true },
-        { name: 'Customers', count: 85, active: false },
-        { name: 'VIP Members', count: 12, active: false },
-        { name: 'Marketing List', count: 27, active: false },
+        { name: 'All Contacts', count: 0, active: true },
     ]
 };
 
@@ -33,7 +26,13 @@ const mutations = {
 
 const actions = {
     async fetchContacts({ commit }) {
-        console.log('Fetching contacts...');
+        try {
+            const response = await api.get('/contacts');
+            commit('SET_CONTACTS', response.data.contacts);
+            commit('SET_GROUPS', response.data.groups);
+        } catch (error) {
+            console.error('Failed to fetch contacts:', error);
+        }
     }
 };
 

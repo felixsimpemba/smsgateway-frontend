@@ -44,25 +44,27 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
-          <tr v-for="id in senderIds" :key="id.name"
+          <tr v-for="id in senderIds" :key="id.id"
             class="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
             <td class="px-6 py-5">
               <div class="font-extrabold text-gray-900 dark:text-white tracking-wider font-mono">{{ id.name }}</div>
             </td>
             <td class="px-6 py-5">
-              <div class="text-sm font-medium text-gray-600 dark:text-slate-300">{{ id.useCase }}</div>
+              <div class="text-sm font-medium text-gray-600 dark:text-slate-300">{{ id.use_case }}</div>
             </td>
             <td class="px-6 py-5">
               <span :class="[
                 'px-2.5 py-1 text-[11px] font-bold rounded-full uppercase tracking-wider',
-                id.status === 'Active' ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400' :
+                id.status === 'Approved' ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400' :
                   id.status === 'Pending' ? 'bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400' :
                     'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
               ]">
                 {{ id.status }}
               </span>
             </td>
-            <td class="px-6 py-5 text-sm font-bold text-gray-500 dark:text-slate-500">{{ id.date }}</td>
+            <td class="px-6 py-5 text-sm font-bold text-gray-500 dark:text-slate-500">
+                {{ new Date(id.created_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) }}
+            </td>
             <td class="px-6 py-5 text-right">
               <button
                 class="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 p-1 transition-colors">
@@ -161,6 +163,9 @@ const submitRequest = async () => {
   showRequestModal.value = false
   newId.value = { name: '', useCase: '' }
 }
+onMounted(() => {
+  store.dispatch('senderids/fetchSenderIds')
+})
 </script>
 
 <style scoped>

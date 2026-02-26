@@ -1,9 +1,12 @@
+import api from '../../services/api';
+
 const state = {
     overview: {
-        sent: 12845,
-        delivered: 12201,
-        failed: 644,
-        balance: 425.50
+        sent: 0,
+        delivered: 0,
+        failed: 0,
+        balance: 0,
+        recent_activity: []
     }
 };
 
@@ -15,7 +18,12 @@ const mutations = {
 
 const actions = {
     async fetchStats({ commit }) {
-        console.log('Fetching stats...');
+        try {
+            const response = await api.get('/stats/overview');
+            commit('SET_STATS', response.data);
+        } catch (error) {
+            console.error('Failed to fetch stats:', error);
+        }
     }
 };
 

@@ -1,11 +1,7 @@
+import api from '../../services/api';
+
 const state = {
-    logs: [
-        { id: 1, recipient: '+1 234 567 8901', message: 'Your verification code is 4829. Do not share it.', status: 'Delivered', date: 'Feb 21, 2026', time: '10:45 AM', cost: '0.015' },
-        { id: 2, recipient: '+44 7700 900077', message: 'Hey! Don\'t forget our meeting at 3 PM today.', status: 'Delivered', date: 'Feb 21, 2026', time: '09:30 AM', cost: '0.042' },
-        { id: 3, recipient: '+1 987 654 3210', message: 'Appointment confirmation: Tuesday at 11 AM.', status: 'Pending', date: 'Feb 21, 2026', time: '08:15 AM', cost: '0.015' },
-        { id: 4, recipient: '+1 555 010 9988', message: 'Flash Sale! Get 20% off with code FLASH20.', status: 'Failed', date: 'Feb 20, 2026', time: '06:20 PM', cost: '0.000' },
-        { id: 5, recipient: '+33 6 12 34 56 78', message: 'Bienvenue chez SMSGate. Votre compte est actif.', status: 'Delivered', date: 'Feb 20, 2026', time: '04:15 PM', cost: '0.038' },
-    ],
+    logs: [],
     loading: false,
     filters: {
         search: '',
@@ -29,10 +25,18 @@ const mutations = {
 const actions = {
     async fetchLogs({ commit, state }) {
         commit('SET_LOADING', true);
-        // Simulate API call
-        console.log('Fetching logs with filters:', state.filters);
-        await new Promise(resolve => setTimeout(resolve, 500));
-        commit('SET_LOADING', false);
+        try {
+            const params = { ...state.filters };
+            if (params.status === 'All Statuses') delete params.status;
+            
+            const response = await api.get('/sms/logs', { params });
+            // The backend returns { data: { data: [...], ... } } for pagination
+            commit('SET_LOGS', response.data.data.data || []);
+        } catch (error) {
+            console.error('Failed to fetch logs:', error);
+        } finally {
+            commit('SET_LOADING', false);
+        }
     },
     async exportLogs({ state }) {
         console.log('Exporting logs as CSV...');

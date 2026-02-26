@@ -1,13 +1,8 @@
 <template>
     <div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <router-link to="/" class="flex justify-center items-center gap-2 mb-6">
-                <div class="bg-indigo-600 p-1.5 rounded-lg shadow-lg shadow-indigo-200">
-                    <ChatBubbleBottomCenterTextIcon class="h-6 w-6 text-white" />
-                </div>
-                <span
-                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">Feltech
-                    SMS</span>
+            <router-link to="/" class="flex justify-center items-center mb-6">
+                <img src="@/assets/logo.png" alt="Feltech SMS Logo" class="h-16 w-auto" />
             </router-link>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">
                 Welcome back
@@ -24,14 +19,20 @@
             <div
                 class="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-3xl sm:px-10 border border-slate-100">
                 <form class="space-y-6" @submit.prevent="handleLogin">
+                    <div v-if="error"
+                        class="bg-red-50 text-red-600 p-3 rounded-xl text-sm border border-red-100 mb-4 transition-all animate-pulse">
+                        {{ error }}
+                    </div>
+
                     <div>
                         <label for="email" class="block text-sm font-semibold text-slate-700">
                             Email address
                         </label>
                         <div class="mt-1">
-                            <input id="email" name="email" type="email" autocomplete="email" required
+                            <input id="email" v-model="form.email" name="email" type="email" autocomplete="email"
+                                required
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                placeholder="name@company.com" />
+                                placeholder="name@company.com" :disabled="loading" />
                         </div>
                     </div>
 
@@ -40,10 +41,10 @@
                             Password
                         </label>
                         <div class="mt-1">
-                            <input id="password" name="password" type="password" autocomplete="current-password"
-                                required
+                            <input id="password" v-model="form.password" name="password" type="password"
+                                autocomplete="current-password" required
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                placeholder="••••••••" />
+                                placeholder="••••••••" :disabled="loading" />
                         </div>
                     </div>
 
@@ -65,8 +66,21 @@
 
                     <div>
                         <button type="submit"
-                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:-translate-y-0.5 active:scale-95">
-                            Sign in to your account
+                            class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                            :disabled="loading">
+                            <template v-if="loading">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                                Signing in...
+                            </template>
+                            <template v-else>
+                                Sign in to your account
+                            </template>
                         </button>
                     </div>
                 </form>
@@ -84,7 +98,7 @@
                     </div>
 
                     <div class="mt-6">
-                        <button
+                        <button @click="loginWithGoogle"
                             class="w-full inline-flex justify-center py-3 px-4 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all">
                             <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -100,10 +114,54 @@
 </template>
 
 <script setup>
+import { ref, reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 
-const handleLogin = () => {
-    // Implement login logic here
-    console.log('Login submitted')
+const store = useStore()
+const router = useRouter()
+
+const loading = ref(false)
+const error = ref('')
+const form = reactive({
+    email: '',
+    password: ''
+})
+
+const loginWithGoogle = () => {
+    // Redirect to backend Google auth route
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
+}
+
+const handleLogin = async () => {
+    if (!form.email || !form.password) {
+        error.value = 'Please enter both email and password.'
+        return
+    }
+
+    loading.value = true
+    error.value = ''
+    try {
+        const data = await store.dispatch('auth/login', {
+            email: form.email,
+            password: form.password
+        })
+        
+        if (data?.two_factor_required) {
+            sessionStorage.setItem('2fa_user_id', data.user_id)
+            sessionStorage.setItem('2fa_method', data.method)
+            router.push('/auth/2fa')
+            return
+        }
+
+        router.push('/dashboard')
+    } catch (err) {
+        // Handle specific error messages if returned by API
+        error.value = err.response?.data?.message || 'Invalid email or password. Please try again.'
+        console.error('Login error:', err)
+    } finally {
+        loading.value = false
+    }
 }
 </script>

@@ -1,3 +1,5 @@
+import api from '../../services/api';
+
 const state = {
     sending: false,
     lastStatus: null
@@ -13,12 +15,19 @@ const mutations = {
 };
 
 const actions = {
-    async sendSMS({ commit }, payload) {
+    async sendSMS({ commit }, smsData) {
         commit('SET_SENDING', true);
-        console.log('Sending SMS:', payload);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        commit('SET_SENDING', false);
-        commit('SET_STATUS', 'success');
+        try {
+            const response = await api.post('/sms/send', smsData);
+            commit('SET_STATUS', 'success');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to send SMS:', error);
+            commit('SET_STATUS', 'failed');
+            throw error;
+        } finally {
+            commit('SET_SENDING', false);
+        }
     }
 };
 

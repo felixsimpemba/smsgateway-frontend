@@ -2,7 +2,7 @@
   <div>
     <div class="mb-8">
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
-      <p class="text-gray-600 dark:text-slate-400">Welcome back, here's what's happening with your messages.</p>
+      <p class="text-gray-600 dark:text-slate-400">Welcome back{{ user ? ', ' + user.name : '' }}, here's what's happening with your messages.</p>
     </div>
 
     <!-- Stats Grid -->
@@ -47,18 +47,23 @@
         class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm transition-colors duration-300">
         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Recent Activity</h3>
         <div class="space-y-6">
-          <div v-for="i in 5" :key="i" class="flex items-start space-x-4">
-            <div class="w-2.5 h-2.5 mt-1.5 rounded-full bg-blue-500 shadow-lg shadow-blue-500/50"></div>
-            <div>
-              <p class="text-sm font-bold text-gray-900 dark:text-white">Message sent to +1 234 *** {{ 80 + i }}</p>
-              <p class="text-xs text-gray-500 dark:text-slate-500 font-medium">2 minutes ago</p>
+          <template v-if="overviewStats.recent_activity?.length">
+            <div v-for="log in overviewStats.recent_activity" :key="log.id" class="flex items-start space-x-4">
+              <div :class="['w-2.5 h-2.5 mt-1.5 rounded-full shadow-lg shadow-blue-500/50', log.status === 'Delivered' ? 'bg-green-500' : 'bg-blue-500']"></div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-bold text-gray-900 dark:text-white truncate">Message to {{ log.recipient }}</p>
+                <p class="text-xs text-gray-500 dark:text-slate-500 font-medium">{{ formatDate(log.created_at) }}</p>
+              </div>
             </div>
+          </template>
+          <div v-else class="text-center py-4 text-gray-500 text-sm">
+            No recent activity
           </div>
         </div>
-        <button
-          class="w-full mt-8 py-3 text-sm text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors">
+        <router-link to="/dashboard/logs"
+          class="w-full mt-8 py-3 block text-center text-sm text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors">
           View all activity →
-        </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -77,6 +82,18 @@ import {
 const store = useStore()
 
 const overviewStats = computed(() => store.state.stats.overview)
+const user = computed(() => store.getters['auth/currentUser'])
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffInMinutes = Math.floor((now - date) / (1000 * 60))
+  
+  if (diffInMinutes < 1) return 'Just now'
+  if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`
+  if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} hours ago`
+  return date.toLocaleDateString()
+}
 
 const stats = computed(() => [
   {

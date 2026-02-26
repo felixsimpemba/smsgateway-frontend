@@ -88,8 +88,8 @@
                 </span>
               </td>
               <td class="px-6 py-5">
-                <div class="text-sm font-bold text-gray-900 dark:text-white">{{ log.date }}</div>
-                <div class="text-xs font-medium text-gray-500 dark:text-slate-500">{{ log.time }}</div>
+                <div class="text-sm font-bold text-gray-900 dark:text-white">{{ new Date(log.created_at).toLocaleDateString() }}</div>
+                <div class="text-xs font-medium text-gray-500 dark:text-slate-500">{{ new Date(log.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</div>
               </td>
               <td class="px-6 py-5 text-right">
                 <div class="text-sm font-extrabold text-gray-900 dark:text-white tracking-tight">${{ log.cost }}</div>
