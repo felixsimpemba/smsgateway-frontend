@@ -263,7 +263,7 @@ const statCards = computed(() => {
       badgeBg: 'bg-red-100 dark:bg-red-900/20', badgeText: 'text-red-600 dark:text-red-400'
     },
     {
-      name: 'Account Balance', value: `$${balance.toFixed(2)}`, trend: 'Top up →', sub: `~${Number(s.sms_balance ?? 0).toLocaleString()} SMS`,
+      name: 'SMS Remaining', value: Number(s.sms_balance ?? 0).toLocaleString(), trend: 'Top up →', sub: `~ZMW ${balance.toFixed(2)}`,
       icon: CurrencyDollarIcon,
       bgLight: 'bg-purple-50', bgDark: 'dark:bg-purple-900/20',
       textLight: 'text-purple-600', textDark: 'dark:text-purple-400',

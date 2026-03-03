@@ -22,13 +22,11 @@
                 class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 text-white shadow-xl shadow-blue-600/20">
                 <div class="flex items-center gap-3 text-blue-100 mb-2">
                     <CurrencyDollarIcon class="w-5 h-5" />
-                    <span class="text-sm font-bold uppercase tracking-wider">Current Balance</span>
+                    <span class="text-sm font-bold uppercase tracking-wider">SMS Remaining</span>
                 </div>
-                <div class="text-4xl font-extrabold tracking-tight">ZMW {{ Number(overviewStats.balance || 0).toFixed(2)
-                    }}</div>
+                <div class="text-4xl font-extrabold tracking-tight">{{ Number(overviewStats.sms_balance || 0).toLocaleString() }}</div>
                 <div class="mt-4 text-blue-100 text-sm bg-black/10 inline-block px-3 py-1 rounded-lg">
-                    Equivalent to ~<span class="font-bold text-white">{{ Number(overviewStats.sms_balance ||
-                        0).toLocaleString() }} SMS</span>
+                    Equivalent to ~<span class="font-bold text-white">ZMW {{ Number(overviewStats.balance || 0).toFixed(2) }}</span>
                 </div>
             </div>
         </div>
