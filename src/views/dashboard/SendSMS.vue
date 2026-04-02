@@ -22,9 +22,9 @@
     </div>
 
     <!-- ── SINGLE SMS TAB ── -->
-    <div v-if="activeTab === 'single'" class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+    <div v-if="activeTab === 'single'" class="max-w-4xl mx-auto">
       <!-- Form -->
-      <div class="lg:col-span-3 space-y-6">
+      <div class="space-y-6">
         <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm">
           <!-- Success / Error Banner -->
           <transition name="fade">
@@ -47,7 +47,7 @@
               </label>
               <select v-model="single.senderId"
                 class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-semibold text-sm">
-                <option value="">Use default</option>
+                <option value="FeltechSMS">FeltechSMS (Default)</option>
                 <option v-for="sid in approvedSenderIds" :key="sid.id" :value="sid.name">{{ sid.name }}</option>
               </select>
             </div>
@@ -87,9 +87,7 @@
               </div>
             </div>
 
-            <!-- Schedule Toggle -->
-            <SchedulePanel v-model:isScheduled="single.isScheduled" v-model:date="single.scheduleDate"
-              v-model:time="single.scheduleTime" />
+
 
             <!-- Actions -->
             <div class="flex gap-3">
@@ -104,40 +102,11 @@
         </div>
       </div>
 
-      <!-- Tips Sidebar -->
-      <div class="lg:col-span-2 space-y-5">
-        <div class="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/30 rounded-2xl p-6">
-          <h4 class="text-xs font-extrabold text-blue-900 dark:text-blue-400 uppercase tracking-widest mb-4">💡 Tips
-          </h4>
-          <ul class="space-y-3 text-sm text-blue-800 dark:text-blue-300/80 font-medium">
-            <li class="flex gap-2"><span class="text-blue-400">•</span> Zambian numbers start with <span
-                class="font-extrabold">+260</span> e.g. <span class="font-mono font-bold">+260971234567</span></li>
-            <li class="flex gap-2"><span class="text-blue-400">•</span> Use <code
-                class="bg-blue-100 dark:bg-blue-900/40 px-1 rounded font-bold">{name}</code> for first-name
-              personalization</li>
-            <li class="flex gap-2"><span class="text-blue-400">•</span> 160 chars = 1 segment. Longer messages count as
-              2+</li>
-            <li class="flex gap-2"><span class="text-blue-400">•</span> Schedule messages to send at the right time</li>
-          </ul>
-        </div>
-        <div class="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6">
-          <h4 class="text-xs font-extrabold text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-4">Message
-            Preview</h4>
-          <div
-            class="bg-gray-100 dark:bg-slate-800 rounded-xl p-4 min-h-[80px] text-sm text-gray-800 dark:text-slate-200 leading-relaxed font-medium whitespace-pre-wrap break-words">
-            {{ single.message || 'Your message will appear here…' }}
-          </div>
-          <p class="text-[11px] text-gray-400 dark:text-slate-600 mt-2 font-semibold">
-            {{ single.message.length }} characters &bull; {{ Math.ceil(single.message.length / 160) || 1 }} SMS
-            segment{{ Math.ceil(single.message.length / 160) > 1 ? 's' : '' }}
-          </p>
-        </div>
-      </div>
     </div>
 
     <!-- ── BULK / CAMPAIGN TAB ── -->
-    <div v-if="activeTab === 'bulk'" class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-      <div class="lg:col-span-3 space-y-6">
+    <div v-if="activeTab === 'bulk'" class="max-w-4xl mx-auto">
+      <div class="space-y-6">
         <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm">
           <!-- Banner -->
           <transition name="fade">
@@ -168,7 +137,7 @@
                 ID</label>
               <select v-model="bulk.senderId"
                 class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-semibold text-sm">
-                <option value="">Use default</option>
+                <option value="FeltechSMS">FeltechSMS (Default)</option>
                 <option v-for="sid in approvedSenderIds" :key="sid.id" :value="sid.name">{{ sid.name }}</option>
               </select>
             </div>
@@ -226,7 +195,7 @@
                 </div>
                 <div class="flex items-center justify-between mt-2">
                   <p class="text-[11px] text-gray-400 dark:text-slate-600 font-medium">{{ bulk.selectedContacts.length
-                    }} selected</p>
+                  }} selected</p>
                   <button type="button" @click="toggleSelectAll"
                     class="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline">
                     {{ bulk.selectedContacts.length === allContacts.length ? 'Deselect all' : 'Select all' }}
@@ -251,9 +220,7 @@
               </div>
             </div>
 
-            <!-- Schedule -->
-            <SchedulePanel v-model:isScheduled="bulk.isScheduled" v-model:date="bulk.scheduleDate"
-              v-model:time="bulk.scheduleTime" />
+
 
             <!-- Summary banner -->
             <div v-if="totalBulkRecipients > 0"
@@ -275,100 +242,6 @@
         </div>
       </div>
 
-      <!-- Campaign tips sidebar -->
-      <div class="lg:col-span-2 space-y-5">
-        <div
-          class="bg-purple-50 dark:bg-purple-900/10 border border-purple-100 dark:border-purple-800/30 rounded-2xl p-6">
-          <h4 class="text-xs font-extrabold text-purple-900 dark:text-purple-400 uppercase tracking-widest mb-4">🚀
-            Campaign Tips</h4>
-          <ul class="space-y-3 text-sm text-purple-800 dark:text-purple-300/80 font-medium">
-            <li class="flex gap-2"><span class="text-purple-400">•</span> Always include an opt-out option in marketing
-              messages</li>
-            <li class="flex gap-2"><span class="text-purple-400">•</span> Use <code
-                class="bg-purple-100 dark:bg-purple-900/40 px-1 rounded font-bold">{name}</code> to personalise at scale
-            </li>
-            <li class="flex gap-2"><span class="text-purple-400">•</span> Best send times: weekdays 9am–12pm or 4pm–6pm
-              CAT</li>
-            <li class="flex gap-2"><span class="text-purple-400">•</span> Keep messages under 160 chars to reduce cost
-              per segment</li>
-          </ul>
-        </div>
-        <div class="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6">
-          <h4 class="text-xs font-extrabold text-gray-400 dark:text-slate-500 uppercase tracking-widest mb-3">Message
-            Preview</h4>
-          <div
-            class="bg-gray-100 dark:bg-slate-800 rounded-xl p-4 min-h-[80px] text-sm text-gray-800 dark:text-slate-200 leading-relaxed font-medium whitespace-pre-wrap break-words">
-            {{ bulk.message || 'Your campaign message will appear here…' }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── AUTOMATION TAB ── -->
-    <div v-if="activeTab === 'automation'">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div v-for="rule in automationRules" :key="rule.id"
-          class="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
-          <div class="flex items-start justify-between mb-4">
-            <div :class="['p-2.5 rounded-xl', rule.iconBg]">
-              <component :is="rule.icon" :class="['w-5 h-5', rule.iconColor]" />
-            </div>
-            <!-- Toggle -->
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" v-model="rule.enabled" class="sr-only peer" @change="saveRule(rule)">
-              <div
-                class="w-10 h-5 bg-gray-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
-              </div>
-            </label>
-          </div>
-          <h3 class="font-bold text-gray-900 dark:text-white text-sm mb-1">{{ rule.name }}</h3>
-          <p class="text-xs text-gray-500 dark:text-slate-500 mb-4">{{ rule.description }}</p>
-          <div class="text-[11px] font-bold uppercase tracking-widest"
-            :class="rule.enabled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-slate-600'">
-            {{ rule.enabled ? '● Active' : '○ Inactive' }}
-          </div>
-        </div>
-      </div>
-
-      <!-- Create Automation -->
-      <div class="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-8 shadow-sm">
-        <h3 class="text-base font-bold text-gray-900 dark:text-white mb-6">Create Automation Rule</h3>
-        <form @submit.prevent="createAutomation" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              class="block text-xs font-extrabold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-2">Rule
-              Name</label>
-            <input v-model="automation.name" type="text" placeholder="e.g. Welcome message"
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm font-semibold placeholder-gray-400" />
-          </div>
-          <div>
-            <label
-              class="block text-xs font-extrabold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-2">Trigger</label>
-            <select v-model="automation.trigger"
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm font-semibold">
-              <option value="">Select trigger…</option>
-              <option value="contact_added">New contact added</option>
-              <option value="keyword">Keyword reply received</option>
-              <option value="scheduled">Scheduled (recurring)</option>
-            </select>
-          </div>
-          <div class="md:col-span-2">
-            <label
-              class="block text-xs font-extrabold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-2">Message
-              Template</label>
-            <textarea v-model="automation.message" rows="3"
-              placeholder="Hi {name}, welcome to FelTech SMS! Reply STOP to opt-out."
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none resize-none text-sm placeholder-gray-400"></textarea>
-          </div>
-          <div class="md:col-span-2 flex justify-end">
-            <button type="submit"
-              class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-6 py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]">
-              <BoltIcon class="w-4 h-4" />
-              Save Automation
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
 
     <!-- Contact Picker Modal -->
@@ -417,14 +290,11 @@ import {
   PaperAirplaneIcon,
   UserGroupIcon,
   RocketLaunchIcon,
-  BoltIcon,
   CheckCircleIcon,
   ExclamationCircleIcon,
   InformationCircleIcon,
   XMarkIcon,
-  ClockIcon,
   ChatBubbleLeftRightIcon,
-  ArrowPathIcon,
 } from '@heroicons/vue/24/outline'
 
 // ── Inline sub-components ────────────────────────────────────────────────────
@@ -442,35 +312,7 @@ const Spinner = defineComponent({
   }
 })
 
-// SchedulePanel
-const SchedulePanel = defineComponent({
-  props: { isScheduled: Boolean, date: String, time: String },
-  emits: ['update:isScheduled', 'update:date', 'update:time'],
-  setup(props, { emit }) {
-    return () => h('div', { class: 'bg-gray-50 dark:bg-slate-800/50 rounded-xl p-4 border border-gray-200 dark:border-slate-700' }, [
-      h('div', { class: 'flex items-center justify-between' }, [
-        h('div', {}, [
-          h('p', { class: 'text-sm font-bold text-gray-700 dark:text-slate-300' }, 'Schedule Delivery'),
-          h('p', { class: 'text-xs text-gray-400 dark:text-slate-500' }, 'Send at a future date & time'),
-        ]),
-        h('label', { class: 'relative inline-flex items-center cursor-pointer' }, [
-          h('input', { type: 'checkbox', class: 'sr-only peer', checked: props.isScheduled, onChange: e => emit('update:isScheduled', e.target.checked) }),
-          h('div', { class: 'w-11 h-6 bg-gray-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\'\'] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600' })
-        ])
-      ]),
-      props.isScheduled ? h('div', { class: 'grid grid-cols-2 gap-4 mt-4' }, [
-        h('div', {}, [
-          h('label', { class: 'block text-[10px] font-extrabold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-1.5' }, 'Date'),
-          h('input', { type: 'date', value: props.date, class: 'w-full px-3 py-2.5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm', onInput: e => emit('update:date', e.target.value) }),
-        ]),
-        h('div', {}, [
-          h('label', { class: 'block text-[10px] font-extrabold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-1.5' }, 'Time (CAT)'),
-          h('input', { type: 'time', value: props.time, class: 'w-full px-3 py-2.5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm', onInput: e => emit('update:time', e.target.value) }),
-        ]),
-      ]) : null
-    ])
-  }
-})
+
 
 // ── Setup ────────────────────────────────────────────────────────────────────
 const store = useStore()
@@ -479,7 +321,6 @@ const activeTab = ref('single')
 const tabs = [
   { id: 'single', label: 'Single SMS', icon: ChatBubbleLeftRightIcon },
   { id: 'bulk', label: 'Campaign', icon: RocketLaunchIcon },
-  { id: 'automation', label: 'Automation', icon: BoltIcon },
 ]
 
 // Store bindings
@@ -500,7 +341,7 @@ const showToast = (type, message) => {
 }
 
 // ── Single SMS ───────────────────────────────────────────────────────────────
-const single = ref({ recipient: '', message: '', senderId: '', isScheduled: false, scheduleDate: '', scheduleTime: '' })
+const single = ref({ recipient: '', message: '', senderId: 'FeltechSMS' })
 
 const handleSingleSend = async () => {
   if (!single.value.recipient || !single.value.message) {
@@ -512,14 +353,10 @@ const handleSingleSend = async () => {
       recipients: single.value.recipient,
       message: single.value.message,
       senderId: single.value.senderId,
-      isScheduled: single.value.isScheduled,
-      scheduleDate: single.value.scheduleDate,
-      scheduleTime: single.value.scheduleTime,
     })
-    showToast('success', single.value.isScheduled ? 'Message scheduled successfully!' : 'Message sent successfully!')
+    showToast('success', 'Message enqueued successfully!')
     single.value.recipient = ''
     single.value.message = ''
-    single.value.isScheduled = false
   } catch (e) {
     showToast('error', store.getters['sms/lastError'] || 'Failed to send message.')
   }
@@ -527,8 +364,8 @@ const handleSingleSend = async () => {
 
 // ── Bulk / Campaign ──────────────────────────────────────────────────────────
 const bulk = ref({
-  campaignName: '', senderId: '', numbersRaw: '', selectedContacts: [],
-  message: '', isScheduled: false, scheduleDate: '', scheduleTime: ''
+  campaignName: '', senderId: 'FeltechSMS', numbersRaw: '', selectedContacts: [],
+  message: ''
 })
 const bulkInputMode = ref('manual')
 
@@ -563,63 +400,15 @@ const handleBulkSend = async () => {
       message: bulk.value.message,
       senderId: bulk.value.senderId,
       campaignName: bulk.value.campaignName,
-      isScheduled: bulk.value.isScheduled,
-      scheduleDate: bulk.value.scheduleDate,
-      scheduleTime: bulk.value.scheduleTime,
     })
     showToast('success', `Campaign "${bulk.value.campaignName || 'Untitled'}" launched to ${recipients.length} recipients!`)
-    bulk.value = { campaignName: '', senderId: '', numbersRaw: '', selectedContacts: [], message: '', isScheduled: false, scheduleDate: '', scheduleTime: '' }
+    bulk.value = { campaignName: '', senderId: 'FeltechSMS', numbersRaw: '', selectedContacts: [], message: '' }
   } catch (e) {
     showToast('error', store.getters['sms/lastError'] || 'Failed to launch campaign.')
   }
 }
 
-// ── Automation ───────────────────────────────────────────────────────────────
-const automationRules = ref([
-  {
-    id: 1, name: 'Welcome Message', description: 'Auto-send a greeting when a new contact is added.',
-    trigger: 'contact_added', enabled: false,
-    icon: ChatBubbleLeftRightIcon, iconBg: 'bg-blue-50 dark:bg-blue-900/20', iconColor: 'text-blue-600 dark:text-blue-400'
-  },
-  {
-    id: 2, name: 'Keyword Auto-Reply', description: 'Reply automatically when a keyword is received.',
-    trigger: 'keyword', enabled: false,
-    icon: ArrowPathIcon, iconBg: 'bg-green-50 dark:bg-green-900/20', iconColor: 'text-green-600 dark:text-green-400'
-  },
-  {
-    id: 3, name: 'Daily Digest', description: 'Send a scheduled report to admins every morning.',
-    trigger: 'scheduled', enabled: false,
-    icon: ClockIcon, iconBg: 'bg-purple-50 dark:bg-purple-900/20', iconColor: 'text-purple-600 dark:text-purple-400'
-  },
-])
 
-const automation = ref({ name: '', trigger: '', message: '' })
-const saveRule = (rule) => {
-  // Persist rule toggle state (extend with API call when backend supports it)
-  console.log('Rule toggled:', rule.name, rule.enabled)
-}
-const createAutomation = () => {
-  if (!automation.value.name || !automation.value.trigger || !automation.value.message) {
-    showToast('error', 'Please fill in all automation fields.')
-    return
-  }
-  const icons = { contact_added: ChatBubbleLeftRightIcon, keyword: ArrowPathIcon, scheduled: ClockIcon }
-  const bgs = { contact_added: 'bg-blue-50 dark:bg-blue-900/20', keyword: 'bg-green-50 dark:bg-green-900/20', scheduled: 'bg-purple-50 dark:bg-purple-900/20' }
-  const colors = { contact_added: 'text-blue-600 dark:text-blue-400', keyword: 'text-green-600 dark:text-green-400', scheduled: 'text-purple-600 dark:text-purple-400' }
-  const descriptions = { contact_added: 'Auto-send when a new contact is added.', keyword: 'Reply when a keyword is received.', scheduled: 'Runs on a schedule.' }
-  automationRules.value.push({
-    id: Date.now(),
-    name: automation.value.name,
-    description: descriptions[automation.value.trigger],
-    trigger: automation.value.trigger,
-    enabled: true,
-    icon: icons[automation.value.trigger],
-    iconBg: bgs[automation.value.trigger],
-    iconColor: colors[automation.value.trigger],
-  })
-  showToast('success', `Automation "${automation.value.name}" created!`)
-  automation.value = { name: '', trigger: '', message: '' }
-}
 
 // ── Contact Picker ───────────────────────────────────────────────────────────
 const showContactPicker = ref(false)

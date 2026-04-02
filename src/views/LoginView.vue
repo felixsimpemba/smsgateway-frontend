@@ -36,15 +36,20 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="relative">
                         <label for="password" class="block text-sm font-semibold text-slate-700">
                             Password
                         </label>
-                        <div class="mt-1">
-                            <input id="password" v-model="form.password" name="password" type="password"
-                                autocomplete="current-password" required
+                        <div class="mt-1 relative">
+                            <input id="password" v-model="form.password" name="password"
+                                :type="showPassword ? 'text' : 'password'" autocomplete="current-password" required
                                 class="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all"
                                 placeholder="••••••••" :disabled="loading" />
+                            <button type="button" @click="showPassword = !showPassword"
+                                class="absolute right-3 top-3 text-slate-400 hover:text-slate-600 transition-colors">
+                                <EyeIcon v-if="!showPassword" class="h-5 w-5" />
+                                <EyeSlashIcon v-else class="h-5 w-5" />
+                            </button>
                         </div>
                     </div>
 
@@ -58,9 +63,10 @@
                         </div>
 
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-brand-blue hover:text-brand-blue/80">
+                            <router-link to="/forgot-password"
+                                class="font-medium text-brand-blue hover:text-brand-blue/80">
                                 Forgot your password?
-                            </a>
+                            </router-link>
                         </div>
                     </div>
 
@@ -85,7 +91,7 @@
                     </div>
                 </form>
 
-                <div class="mt-6">
+                <!-- <div class="mt-6">
                     <div class="relative">
                         <div class="absolute inset-0 flex items-center">
                             <div class="w-full border-t border-slate-200"></div>
@@ -107,7 +113,7 @@
                             Google
                         </button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -117,6 +123,7 @@
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 
 const store = useStore()
 const router = useRouter()
@@ -124,6 +131,7 @@ const route = useRoute()
 
 const loading = ref(false)
 const error = ref('')
+const showPassword = ref(false)
 const form = reactive({
     email: '',
     password: ''
@@ -160,7 +168,14 @@ const handleLogin = async () => {
         router.push(decodeURIComponent(redirect))
     } catch (err) {
         // Handle specific error messages if returned by API
-        error.value = err.response?.data?.message || 'Invalid email or password. Please try again.'
+        const responseData = err.response?.data
+        if (responseData?.errors) {
+            // Get the first error message from the first field that has an error
+            const firstField = Object.keys(responseData.errors)[0]
+            error.value = responseData.errors[firstField][0]
+        } else {
+            error.value = responseData?.message || 'Invalid email or password. Please try again.'
+        }
         console.error('Login error:', err)
     } finally {
         loading.value = false

@@ -61,11 +61,25 @@ const actions = {
             throw error;
         }
     },
-    async sendTwoFactorChallengeCode({ commit }, userId) {
+    async sendTwoFactorChallengeCode({ commit }, { userId, method = null }) {
         try {
-            await api.post('/auth/2fa/challenge/send', { user_id: userId });
+            await api.post('/auth/2fa/challenge/send', { 
+                user_id: userId,
+                method: method 
+            });
         } catch (error) {
             console.error('Failed to send challenge code:', error);
+            throw error;
+        }
+    },
+    async getAvailable2FaMethods({ commit }, userId) {
+        try {
+            const response = await api.get('/auth/2fa/methods', { 
+                params: { user_id: userId } 
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Failed to fetch 2FA methods:', error);
             throw error;
         }
     },
@@ -169,6 +183,73 @@ const actions = {
             return response.data;
         } catch (error) {
             console.error('Failed to disable 2FA:', error);
+            throw error;
+        }
+    },
+    async sendOnboardingEmail({ commit }) {
+        try {
+            const response = await api.post('/onboarding/email/send');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to send onboarding email:', error);
+            throw error;
+        }
+    },
+    async verifyOnboardingEmail({ dispatch }, code) {
+        try {
+            const response = await api.post('/onboarding/email/verify', { code });
+            await dispatch('fetchUser');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to verify onboarding email:', error);
+            throw error;
+        }
+    },
+    async sendOnboardingPhone({ commit }) {
+        try {
+            const response = await api.post('/onboarding/phone/send');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to send onboarding phone:', error);
+            throw error;
+        }
+    },
+    async verifyOnboardingPhone({ dispatch }, code) {
+        try {
+            const response = await api.post('/onboarding/phone/verify', { code });
+            await dispatch('fetchUser');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to verify onboarding phone:', error);
+            throw error;
+        }
+    },
+    async getOnboarding2FaSetup({ commit }) {
+        try {
+            const response = await api.get('/onboarding/2fa/setup');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to get onboarding 2FA setup:', error);
+            throw error;
+        }
+    },
+    async completeOnboarding({ commit, dispatch }, payload) {
+        try {
+            const response = await api.post('/onboarding/complete', payload);
+            await dispatch('fetchUser');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to complete onboarding:', error);
+            throw error;
+        }
+    },
+    async selectOnboardingPlan({ commit, dispatch }, plan) {
+        try {
+            const response = await api.post('/onboarding/plan', { plan });
+            await dispatch('fetchUser');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to select onboarding plan:', error);
             throw error;
         }
     }

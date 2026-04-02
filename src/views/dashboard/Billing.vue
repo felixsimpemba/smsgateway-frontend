@@ -24,9 +24,10 @@
                     <CurrencyDollarIcon class="w-5 h-5" />
                     <span class="text-sm font-bold uppercase tracking-wider">SMS Remaining</span>
                 </div>
-                <div class="text-4xl font-extrabold tracking-tight">{{ Number(overviewStats.sms_balance || 0).toLocaleString() }}</div>
+                <div class="text-4xl font-extrabold tracking-tight">{{ Math.floor(Number(overviewStats.sms_balance ||
+                    0)).toLocaleString() }}</div>
                 <div class="mt-4 text-blue-100 text-sm bg-black/10 inline-block px-3 py-1 rounded-lg">
-                    Equivalent to ~<span class="font-bold text-white">ZMW {{ Number(overviewStats.balance || 0).toFixed(2) }}</span>
+                    SMS credits available
                 </div>
             </div>
         </div>
@@ -35,7 +36,7 @@
         <div
             class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
             <div class="p-6 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center">
-                <h2 class="text-lg font-bold text-gray-900 dark:text-white">Transaction History</h2>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white">Top Up History</h2>
                 <button @click="loadTransactions" class="p-2 text-gray-400 hover:text-blue-600 transition-colors">
                     <ArrowPathIcon class="w-5 h-5" :class="{ 'animate-spin': loading }" />
                 </button>
@@ -47,8 +48,8 @@
                         <tr>
                             <th class="px-6 py-4 font-bold">Date</th>
                             <th class="px-6 py-4 font-bold">Description</th>
-                            <th class="px-6 py-4 font-bold">Type</th>
-                            <th class="px-6 py-4 font-bold text-right">Amount (ZMW)</th>
+                            <th class="px-6 py-4 font-bold text-right">Amount (SMS)</th>
+                            <th class="px-6 py-4 font-bold text-right">ZMW Paid</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-slate-800"
@@ -61,28 +62,25 @@
                             <td class="px-6 py-4 text-gray-600 dark:text-slate-300">
                                 {{ tx.description }}
                             </td>
-                            <td class="px-6 py-4">
-                                <span :class="[
-                                    'px-2.5 py-1 text-xs font-bold rounded-full uppercase tracking-wider',
-                                    tx.type === 'deposit' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-                                ]">
-                                    {{ tx.type }}
-                                </span>
+                            <td class="px-6 py-4 text-right font-bold text-green-600 dark:text-green-400 whitespace-nowrap">
+                                +{{ Number(tx.amount).toLocaleString() }} SMS
                             </td>
-                            <td
-                                :class="['px-6 py-4 text-right font-bold whitespace-nowrap', tx.type === 'deposit' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white']">
-                                {{ tx.type === 'deposit' ? '+' : '' }}{{ Number(tx.amount).toFixed(2) }}
+                            <td class="px-6 py-4 text-right text-gray-500 dark:text-slate-400 whitespace-nowrap">
+                                <span v-if="tx.zmw_amount" class="font-semibold text-gray-700 dark:text-slate-300">
+                                    ZMW {{ Number(tx.zmw_amount).toFixed(2) }}
+                                </span>
+                                <span v-else class="text-gray-300 dark:text-slate-600">—</span>
                             </td>
                         </tr>
                     </tbody>
                     <tbody v-else-if="loading">
                         <tr>
-                            <td colspan="4" class="px-6 py-12 text-center text-gray-400">Loading transactions...</td>
+                            <td colspan="5" class="px-6 py-12 text-center text-gray-400">Loading transactions...</td>
                         </tr>
                     </tbody>
                     <tbody v-else>
                         <tr>
-                            <td colspan="4" class="px-6 py-12 text-center text-gray-400">No transactions found.</td>
+                            <td colspan="4" class="px-6 py-12 text-center text-gray-400">No top-ups found.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -96,7 +94,7 @@
                     Previous
                 </button>
                 <span class="text-sm text-gray-500">Page {{ transactions.current_page }} of {{ transactions.last_page
-                    }}</span>
+                }}</span>
                 <button @click="loadPage(transactions.current_page + 1)"
                     :disabled="transactions.current_page === transactions.last_page"
                     class="px-4 py-2 text-sm font-semibold text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed border dark:border-slate-700 rounded-lg">

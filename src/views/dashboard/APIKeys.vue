@@ -13,7 +13,7 @@
         <div
           class="px-8 py-6 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between bg-gray-50/50 dark:bg-slate-800/50">
           <h3 class="font-extrabold text-gray-900 dark:text-white tracking-tight">Your API Keys</h3>
-          <button @click="generateKey"
+          <button @click="isModalOpen = true"
             class="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 shadow-lg shadow-blue-600/20 active:scale-[0.98] transition-all">
             Generate New Key
           </button>
@@ -49,9 +49,11 @@
                   <EyeSlashIcon v-else class="w-4 h-4" />
                 </button>
               </div>
-              <button @click="copyKey(key.key)"
-                class="p-3.5 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-600 dark:text-slate-400 transition-all active:scale-[0.95]">
-                <ClipboardDocumentIcon class="w-5 h-5" />
+              <button @click="copyKey(key.key, key.id)"
+                class="p-3.5 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-600 dark:text-slate-400 transition-all active:scale-[0.95] flex items-center gap-2">
+                <CheckIcon v-if="copiedId === key.id" class="w-5 h-5 text-green-500" />
+                <ClipboardDocumentIcon v-else class="w-5 h-5" />
+                <span v-if="copiedId === key.id" class="text-xs font-bold text-green-500">Copied</span>
               </button>
             </div>
           </div>
@@ -59,76 +61,42 @@
       </div>
 
       <!-- Quick Documentation -->
-      <div
-        class="bg-slate-950 dark:bg-black rounded-[2.5rem] p-10 text-white shadow-2xl border border-white/5 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-[100px] -mr-32 -mt-32"></div>
 
-        <h3 class="text-xl font-extrabold mb-6 flex items-center tracking-tight">
-          <CommandLineIcon class="w-7 h-7 mr-3 text-blue-500" />
-          Quick Start Guide
-        </h3>
-
-        <div
-          class="bg-black/40 backdrop-blur-sm rounded-2xl p-6 font-mono text-sm border border-white/10 overflow-x-auto shadow-inner">
-          <pre class="text-blue-400 leading-relaxed"><span class="text-slate-500"># Send your first message via cURL</span>
-curl -X POST https://api.smsgate.com/v1/send \
-  -H <span class="text-emerald-400">"Authorization: Bearer YOUR_API_KEY"</span> \
-  -H <span class="text-emerald-400">"Content-Type: application/json"</span> \
-  -d <span class="text-orange-300">'{
-    "to": "+1234567890",
-    "message": "Hello from SMSGate!"
-  }'</span></pre>
-        </div>
-
-        <div class="mt-10 flex items-center justify-between">
-          <div class="flex items-center space-x-6">
-            <div class="flex flex-col items-center group cursor-pointer">
-              <span
-                class="text-xs font-bold text-slate-500 group-hover:text-blue-400 transition-colors uppercase tracking-widest">Node.js</span>
-            </div>
-            <div class="w-1 h-1 rounded-full bg-slate-800"></div>
-            <div class="flex flex-col items-center group cursor-pointer">
-              <span
-                class="text-xs font-bold text-slate-500 group-hover:text-blue-400 transition-colors uppercase tracking-widest">Python</span>
-            </div>
-            <div class="w-1 h-1 rounded-full bg-slate-800"></div>
-            <div class="flex flex-col items-center group cursor-pointer">
-              <span
-                class="text-xs font-bold text-slate-500 group-hover:text-blue-400 transition-colors uppercase tracking-widest">Go</span>
-            </div>
-          </div>
-          <a href="#"
-            class="text-sm text-blue-400 font-extrabold hover:text-blue-300 transition-colors group flex items-center">
-            View Full Documentation
-            <ArrowRightIcon class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
-      </div>
     </div>
+
+    <!-- API Key Modal -->
+    <ApiKeyModal 
+      :is-open="isModalOpen" 
+      @close="isModalOpen = false" 
+      @generate="onGenerate" 
+    />
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import {
   TrashIcon,
   EyeIcon,
   EyeSlashIcon,
   ClipboardDocumentIcon,
+  CheckIcon,
   CommandLineIcon,
   ArrowRightIcon
 } from '@heroicons/vue/24/outline'
+import ApiKeyModal from '../../components/dashboard/ApiKeyModal.vue'
 
 const store = useStore()
 
 const apiKeys = computed(() => store.getters['apikeys/allKeys'])
 
-const generateKey = () => {
-  const name = prompt('Enter a name for this API key:', 'Production Key')
-  if (name) {
-    store.dispatch('apikeys/generateKey', name)
-  }
+const isModalOpen = ref(false)
+const copiedId = ref(null)
+
+const onGenerate = async (name) => {
+  isModalOpen.value = false
+  await store.dispatch('apikeys/generateKey', name)
 }
 
 const deleteKey = (id) => {
@@ -141,9 +109,14 @@ const toggleVisibility = (id) => {
   store.commit('apikeys/TOGGLE_KEY_VISIBILITY', id)
 }
 
-const copyKey = (value) => {
+const copyKey = (value, id) => {
   navigator.clipboard.writeText(value)
-  // Simple toast or alert
+  copiedId.value = id
+  setTimeout(() => {
+    if (copiedId.value === id) {
+      copiedId.value = null
+    }
+  }, 2000)
 }
 
 onMounted(() => {

@@ -25,14 +25,22 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
+        const originalRequest = error.config;
+        
         if (error.response && error.response.status === 401) {
-            // Only act if we actually had a token (avoids loops on the login page itself)
-            if (localStorage.getItem('token')) {
-                await store.dispatch('auth/logout');
-                // Redirect while preserving intended destination
-                const currentPath = window.location.pathname;
-                const redirect = currentPath.startsWith('/dashboard') ? `?redirect=${encodeURIComponent(currentPath)}` : '';
-                window.location.href = `/login${redirect}`;
+            // Avoid loops: check if error came from /logout or /login
+            const isAuthEndpoint = originalRequest.url.includes('/logout') || originalRequest.url.includes('/login');
+            
+            if (!isAuthEndpoint && localStorage.getItem('token')) {
+                // Clear state
+                store.commit('auth/LOGOUT');
+                
+                // Redirect only if not already on login
+                if (!window.location.pathname.startsWith('/login')) {
+                    const currentPath = window.location.pathname;
+                    const redirect = currentPath.startsWith('/dashboard') ? `?redirect=${encodeURIComponent(currentPath)}` : '';
+                    window.location.href = `/login${redirect}`;
+                }
             }
         }
         return Promise.reject(error);

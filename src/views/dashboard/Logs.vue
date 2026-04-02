@@ -34,7 +34,7 @@
       <select :value="filters.status" @change="updateFilter('status', $event.target.value)"
         class="bg-gray-50 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-xl text-sm font-bold text-gray-700 dark:text-slate-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
         <option>All Statuses</option>
-        <option>Delivered</option>
+        <option>Sent</option>
         <option>Pending</option>
         <option>Failed</option>
       </select>
@@ -71,7 +71,7 @@
               <td class="px-6 py-5">
                 <div class="font-bold text-gray-900 dark:text-white">{{ log.recipient }}</div>
                 <div class="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-tight mt-0.5">
-                  United States</div>
+                  Zambia</div>
               </td>
               <td class="px-6 py-5">
                 <div class="text-sm text-gray-600 dark:text-slate-300 truncate max-w-xs font-medium">{{ log.message }}
@@ -80,7 +80,7 @@
               <td class="px-6 py-5">
                 <span :class="[
                   'px-2.5 py-1 text-[11px] font-bold rounded-full uppercase tracking-wider',
-                  log.status === 'Delivered' ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400' :
+                  log.status === 'Sent' ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400' :
                     log.status === 'Pending' ? 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' :
                       'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
                 ]">
@@ -91,10 +91,11 @@
                 <div class="text-sm font-bold text-gray-900 dark:text-white">{{ new
                   Date(log.created_at).toLocaleDateString() }}</div>
                 <div class="text-xs font-medium text-gray-500 dark:text-slate-500">{{ new
-                  Date(log.created_at).toLocaleTimeString([], { hour: '2-digit', minute:'2-digit'}) }}</div>
+                  Date(log.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}</div>
               </td>
               <td class="px-6 py-5 text-right">
-                <div class="text-sm font-extrabold text-gray-900 dark:text-white tracking-tight">{{ log.cost }} SMS
+                <div class="text-sm font-extrabold text-gray-900 dark:text-white tracking-tight">{{
+                  Number(log.cost).toLocaleString() }} SMS
                 </div>
               </td>
             </tr>

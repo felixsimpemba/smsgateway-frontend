@@ -70,7 +70,7 @@
             <div
                 class="pt-8 border-t border-slate-800 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-sm">© 2026 Feltech SMS. All rights reserved.</p>
-                <p class="text-sm">Made with by Feltech </p>
+
             </div>
         </div>
     </footer>

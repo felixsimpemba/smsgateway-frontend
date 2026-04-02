@@ -175,14 +175,14 @@
             <div v-for="log in overviewStats.recent_activity" :key="log.id"
               class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
               <div
-                :class="['w-2.5 h-2.5 rounded-full flex-shrink-0 shadow-lg', log.status === 'Delivered' ? 'bg-green-500 shadow-green-500/50' : log.status === 'Failed' ? 'bg-red-500 shadow-red-500/50' : 'bg-amber-400 shadow-amber-400/50']">
+                :class="['w-2.5 h-2.5 rounded-full flex-shrink-0 shadow-lg', log.status === 'Sent' ? 'bg-green-500 shadow-green-500/50' : log.status === 'Failed' ? 'bg-red-500 shadow-red-500/50' : 'bg-amber-400 shadow-amber-400/50']">
               </div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-bold text-gray-900 dark:text-white truncate">To: {{ log.recipient }}</p>
                 <p class="text-xs text-gray-400 dark:text-slate-500">{{ formatDate(log.created_at) }}</p>
               </div>
               <span :class="['text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide flex-shrink-0',
-                log.status === 'Delivered' ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' :
+                log.status === 'Sent' ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' :
                   log.status === 'Failed' ? 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400' :
                     'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400']">
                 {{ log.status }}
@@ -235,9 +235,9 @@ const user = computed(() => store.getters['auth/currentUser'])
 const statCards = computed(() => {
   const s = overviewStats.value
   const sent = Number(s.sent ?? 0)
-  const delivered = Number(s.delivered ?? 0)
+  const delivered = Number(s.Sent ?? 0)
   const failed = Number(s.failed ?? 0)
-  const balance = Number(s.balance ?? 0)
+  const smsBalance = Math.floor(Number(s.sms_balance ?? 0))
   const pending = Number(s.pending ?? 0)
   const rate = sent > 0 ? ((delivered / sent) * 100).toFixed(1) : '0.0'
   return [
@@ -263,7 +263,7 @@ const statCards = computed(() => {
       badgeBg: 'bg-red-100 dark:bg-red-900/20', badgeText: 'text-red-600 dark:text-red-400'
     },
     {
-      name: 'SMS Remaining', value: Number(s.sms_balance ?? 0).toLocaleString(), trend: 'Top up →', sub: `~ZMW ${balance.toFixed(2)}`,
+      name: 'SMS Remaining', value: smsBalance.toLocaleString(), trend: 'Top up →', sub: 'Your current SMS balance',
       icon: CurrencyDollarIcon,
       bgLight: 'bg-purple-50', bgDark: 'dark:bg-purple-900/20',
       textLight: 'text-purple-600', textDark: 'dark:text-purple-400',
@@ -316,7 +316,7 @@ const circumference = 2 * Math.PI * 60
 const deliveryRate = computed(() => {
   const s = overviewStats.value
   const sent = Number(s.sent ?? 0)
-  const delivered = Number(s.delivered ?? 0)
+  const delivered = Number(s.Sent ?? 0)
   return sent > 0 ? Math.round((delivered / sent) * 100) : 0
 })
 const deliveredArc = computed(() => (deliveryRate.value / 100) * circumference)
@@ -331,7 +331,7 @@ const pendingPct = computed(() => Math.max(0, 100 - deliveryRate.value - failedP
 const pendingArc = computed(() => (pendingPct.value / 100) * circumference)
 
 const donutSegments = computed(() => [
-  { label: 'Delivered', pct: deliveryRate.value, dot: 'bg-green-500' },
+  { label: 'Sent', pct: deliveryRate.value, dot: 'bg-green-500' },
   { label: 'Failed', pct: failedPct.value, dot: 'bg-red-400' },
   { label: 'Pending', pct: pendingPct.value, dot: 'bg-amber-400' },
 ])

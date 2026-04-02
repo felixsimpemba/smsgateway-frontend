@@ -44,6 +44,32 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+          <!-- System Default ID -->
+          <tr class="bg-blue-50/30 dark:bg-blue-900/10 border-b border-gray-100 dark:border-slate-800 transition-colors">
+            <td class="px-6 py-5">
+              <div class="flex items-center gap-3">
+                <div class="font-extrabold text-blue-600 dark:text-blue-400 tracking-wider font-mono">FeltechSMS</div>
+                <span class="px-2 py-0.5 text-[9px] font-black bg-blue-600 text-white rounded uppercase tracking-widest">Default</span>
+              </div>
+            </td>
+            <td class="px-6 py-5">
+              <div class="text-sm font-medium text-blue-800/60 dark:text-blue-300/40 italic">System Default</div>
+            </td>
+            <td class="px-6 py-5">
+              <span class="px-2.5 py-1 text-[11px] font-bold rounded-full uppercase tracking-wider bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400">
+                Approved
+              </span>
+            </td>
+            <td class="px-6 py-5 text-sm font-bold text-gray-400 dark:text-slate-600 italic">
+              Permanent
+            </td>
+            <td class="px-6 py-5 text-right">
+              <span class="text-gray-300 dark:text-slate-700 p-1">
+                <LockClosedIcon class="w-5 h-5 mx-auto" />
+              </span>
+            </td>
+          </tr>
+
           <tr v-for="id in senderIds" :key="id.id"
             class="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors">
             <td class="px-6 py-5">
@@ -143,7 +169,8 @@ import { useStore } from 'vuex'
 import {
   PlusIcon,
   EllipsisHorizontalIcon,
-  XMarkIcon
+  XMarkIcon,
+  LockClosedIcon
 } from '@heroicons/vue/24/outline'
 
 const store = useStore()

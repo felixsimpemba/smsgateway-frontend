@@ -20,6 +20,12 @@ const routes = [
         meta: { requiresGuest: true }
     },
     {
+        path: '/forgot-password',
+        name: 'ForgotPassword',
+        component: () => import('../views/ForgotPasswordView.vue'),
+        meta: { requiresGuest: true }
+    },
+    {
         path: '/auth/callback',
         name: 'AuthCallback',
         component: () => import('../views/AuthCallback.vue')
@@ -153,7 +159,7 @@ const router = createRouter({
 })
 
 // ─── Global Navigation Guard ────────────────────────────────────────────────
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
     const requiresAuth = to.matched.some(r => r.meta.requiresAuth)
     const requiresGuest = to.matched.some(r => r.meta.requiresGuest)
     const token = localStorage.getItem('token')
@@ -161,31 +167,49 @@ router.beforeEach(async (to, from, next) => {
     // ── Route requires authentication ──
     if (requiresAuth) {
         if (!token) {
-            // No token at all → go to login, remember where they wanted to go
-            return next({ name: 'Login', query: { redirect: to.fullPath } })
+            return { name: 'Login', query: { redirect: to.fullPath } }
         }
 
-        // Token present but user not yet loaded in Vuex (e.g. after page refresh)
         if (!store.state.auth.user) {
             try {
                 await store.dispatch('auth/fetchUser')
-                // fetchUser succeeded → user is now set in Vuex
             } catch {
-                // fetchUser threw (401 from backend) → token is invalid/expired
-                // auth-module already called LOGOUT; send to login with redirect
-                return next({ name: 'Login', query: { redirect: to.fullPath } })
+                return { name: 'Login', query: { redirect: to.fullPath } }
             }
         }
 
-        return next()
+        // Check onboarding completion
+        if (!store.state.auth.user.onboarding_completed_at && to.name !== 'Signup') {
+            return { name: 'Signup' }
+        }
+
+        return true
     }
 
     // ── Route requires guest (login / signup) ──
-    if (requiresGuest && token && store.state.auth.user) {
-        return next({ name: 'DashboardOverview' })
+    if (requiresGuest && token) {
+        // If they have a token, we need to check if they've finished onboarding
+        if (!store.state.auth.user) {
+            try {
+                await store.dispatch('auth/fetchUser')
+            } catch {
+                return true // Token invalid, stay on guest page
+            }
+        }
+
+        if (store.state.auth.user.onboarding_completed_at) {
+            return { name: 'DashboardOverview' }
+        }
+        
+        // If on login but onboarding incomplete, go to signup
+        if (to.name === 'Login') {
+            return { name: 'Signup' }
+        }
+
+        return true // Allow staying on Signup if onboarding is incomplete
     }
 
-    next()
+    return true
 })
 
 export default router
